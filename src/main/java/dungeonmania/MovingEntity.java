@@ -1,7 +1,16 @@
 package dungeonmania;
-import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
 
-public interface MovingEntity {
-    public void move(Direction direction);
+public class MovingEntity {
+    private Position position;
+
+    public MovingEntity(Position position, int x, int y) {
+        position = new Position(x, y);
+        this.position = position;
+    }
+
+    public Position getPosition() {
+        return this.position;
+    }
 
 }
