@@ -8,13 +8,14 @@ import org.json.JSONObject;
 /**
  * Base class for all entities.
  * 
- * @author Wang Liao
- * @version 1.0
+ * @author Wang Liao, <add_your_name>
+ * @version 2.0
  *
  * @attributes - id (String)                - unique id of the entity
  *             - type (String)              - type of the entity
  *             - position (Position)        - position of the entity
  *             - isInteractable (boolean)   - whether the entity is interactable (only pertains to mercenaries and zombie toast spawners)
+ *
  */
 public class Entity {
     private String id;
@@ -23,16 +24,16 @@ public class Entity {
     private boolean isInteractable;
     
     /**
-     * Constructor for Entity.
-     * 
-     * @param id
+     * Constructor for Entity - See 4.1 Input Specification - Entities.
+     *
+     * @param x
+     * @param y
      * @param type
-     * @param position
      */
-    public Entity(String id, String type, Position position) {
-        this.id = generateId(type, position);
+    public Entity(int x, int y, String type) {
+        this.position = new Position(x, y);
         this.type = type;
-        this.position = position;
+        this.id = generateId(type, this.position);
         this.isInteractable = false;
     }
     
