@@ -17,20 +17,20 @@ import org.json.JSONObject;
  *             - isInteractable (boolean)   - whether the entity is interactable (only pertains to mercenaries and zombie toast spawners)
  */
 
-public class BaseEntity {
+public class Entity {
     private String id;
     private String type;
     private Position position;
     private boolean isInteractable;
     
     /**
-     * Constructor for BaseEntity.
+     * Constructor for Entity.
      * 
      * @param id
      * @param type
      * @param position
      */
-    public BaseEntity(String id, String type, Position position) {
+    public Entity(String id, String type, Position position) {
         this.id = generateId(type, position);
         this.type = type;
         this.position = position;
@@ -38,12 +38,12 @@ public class BaseEntity {
     }
     
     /**
-     * Constructor for BaseEntity - ItemResponse.
+     * Constructor for Entity - ItemResponse.
      *
      * @param id
      * @param type
      */
-    public BaseEntity(String id, String type) {
+    public Entity(String id, String type) {
         this.id = id;
         this.type = type;
     }
@@ -140,7 +140,7 @@ public class BaseEntity {
      * @param entity
      * @return boolean
      */
-    public boolean isAtSamePosition(BaseEntity entity) {
+    public boolean isAtSamePosition(Entity entity) {
         return this.getPosition().equals(entity.getPosition());
     }
     
@@ -159,7 +159,7 @@ public class BaseEntity {
      */
     @Override
     public String toString() {
-        return "BaseEntity [id=" + id + ", type=" + type + ", position=" + position + ", isInteractable=" + isInteractable + "]";
+        return "Entity [id=" + id + ", type=" + type + ", position=" + position + ", isInteractable=" + isInteractable + "]";
     }
     
     /**
@@ -173,7 +173,7 @@ public class BaseEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final BaseEntity other = (BaseEntity) obj;
+        final Entity other = (Entity) obj;
         return this.id.equals(other.id);
     }
 
