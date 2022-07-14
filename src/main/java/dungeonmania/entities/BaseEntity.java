@@ -17,7 +17,7 @@ import org.json.JSONObject;
  *             - isInteractable (boolean)   - whether the entity is interactable (only pertains to mercenaries and zombie toast spawners)
  */
 
-public class BaseEntity {
+public abstract class BaseEntity {
     private String id;
     private String type;
     private Position position;
