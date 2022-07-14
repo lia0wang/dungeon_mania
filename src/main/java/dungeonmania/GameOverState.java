@@ -22,4 +22,9 @@ public class GameOverState implements PlayerState {
         player.setPlayerState(new GameOverState());
         System.out.println("Game Over!");
     }
+
+    @Override
+    public void backToDefault(Player player) {
+        System.out.println("Game Over!");
+    }
 }

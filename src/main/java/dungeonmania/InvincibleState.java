@@ -22,5 +22,10 @@ public class InvincibleState implements PlayerState{
         player.setPlayerState(new GameOverState());
         System.out.println("Game Over!");
     }
+
+    @Override
+    public void backToDefault(Player player) {
+        player.setPlayerState(new DefaultState());
+    }
     
 }

@@ -1,10 +1,10 @@
 package dungeonmania;
 
-public class InvisibleState implements PlayerState {
+public class DefaultState implements PlayerState{
     private String playerstate;
 
-    public InvisibleState() {
-        this.playerstate = "InvisibleState";
+    public DefaultState() {
+        this.playerstate = "DefaultState";
     }
 
     @Override
@@ -22,10 +22,9 @@ public class InvisibleState implements PlayerState {
         player.setPlayerState(new GameOverState());
         System.out.println("Game Over!");
     }
-    
+
     @Override
     public void backToDefault(Player player) {
         player.setPlayerState(new DefaultState());
     }
-
 }
