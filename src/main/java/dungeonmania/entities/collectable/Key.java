@@ -1,4 +1,4 @@
-package dungeonmania;
+package dungeonmania.entities.collectable;
 
 import dungeonmania.util.Position;
 
