@@ -1,4 +1,4 @@
-package dungeonmania;
+package dungeonmania.entities.moving;
 
 public class InvincibleState implements PlayerState{
     private String playerstate;

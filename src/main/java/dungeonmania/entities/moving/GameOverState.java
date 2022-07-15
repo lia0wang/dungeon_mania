@@ -1,4 +1,4 @@
-package dungeonmania;
+package dungeonmania.entities.moving;
 
 public class GameOverState implements PlayerState {
     private String playerstate;

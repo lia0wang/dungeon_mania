@@ -1,4 +1,4 @@
-package dungeonmania;
+package dungeonmania.entities.moving;
 
 public interface PlayerState {
     public void becomeInvincible(Player player);
