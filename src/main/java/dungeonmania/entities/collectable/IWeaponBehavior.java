@@ -1,6 +1,6 @@
 package dungeonmania.entities.collectable;
 
-import dungeonmania.entities.moving.player.Player;
+import dungeonmania.entities.moving.Player;
 
 /**
  * interface for weapon behavior - Sword, Shield, Bow.

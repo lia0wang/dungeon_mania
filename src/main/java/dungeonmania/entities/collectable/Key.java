@@ -2,7 +2,7 @@ package dungeonmania.entities.collectable;
 
 import org.json.JSONObject;
 
-import dungeonmania.entities.moving.player.Player;
+import dungeonmania.entities.moving.Player;
 
 /**
  * class for Key.

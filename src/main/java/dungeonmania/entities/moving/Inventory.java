@@ -1,4 +1,4 @@
-package dungeonmania.entities.moving.player;
+package dungeonmania.entities.moving;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,5 @@
-package dungeonmania.entities.moving.player;
+package dungeonmania.entities.moving;
 
-import dungeonmania.entities.moving.MovementBehaviour;
-import dungeonmania.entities.moving.MovingEntity;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 

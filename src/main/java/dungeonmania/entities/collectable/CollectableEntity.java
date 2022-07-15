@@ -3,7 +3,7 @@ package dungeonmania.entities.collectable;
 import java.util.ArrayList;
 
 import dungeonmania.entities.Entity;
-import dungeonmania.entities.moving.player.Player;
+import dungeonmania.entities.moving.Player;
 import dungeonmania.response.models.ItemResponse;
 
 /**
