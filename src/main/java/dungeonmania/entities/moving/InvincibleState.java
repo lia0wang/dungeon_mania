@@ -1,12 +1,12 @@
 package dungeonmania.entities.moving;
 
 public class InvincibleState implements PlayerState{
-    private String playerstate;
+    private String playerState;
 
     public InvincibleState() {
-        this.playerstate = "InvincibleState";
+        this.playerState = "InvincibleState";
     }
-
+    
     @Override
     public void becomeInvincible(Player player) {
         player.setPlayerState(new InvincibleState());
