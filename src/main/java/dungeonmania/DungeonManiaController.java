@@ -1,5 +1,8 @@
 package dungeonmania;
 
+import dungeonmania.entities.Dungeon;
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.EntityFactory;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
@@ -9,6 +12,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 public class DungeonManiaController {
     public String getSkin() {
@@ -37,6 +49,7 @@ public class DungeonManiaController {
      * /game/new
      */
     public DungeonResponse newGame(String dungeonName, String configName) throws IllegalArgumentException {
+
         return null;
     }
 
@@ -74,4 +87,33 @@ public class DungeonManiaController {
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
         return null;
     }
+
+    public static Dungeon createNewDungeon(String path) throws JsonSyntaxException, IOException {
+        List<Entity> entities = new ArrayList<>();
+        EntityFactory entityFactory = new EntityFactory();
+
+        JsonObject test = JsonParser.parseString(FileLoader.loadResourceFile(path)).getAsJsonObject();
+        JsonArray jsonEntities = (JsonArray) test.get("entities");
+        for (JsonElement e : jsonEntities) {
+            JsonObject entityObj = e.getAsJsonObject();
+            String type = entityObj.get("type").toString().replaceAll("\"", "");
+            if (type.equalsIgnoreCase("player")) {
+                String intX = entityObj.get("x").toString();
+                String intY = entityObj.get("y").toString();
+                Entity newEntity = entityFactory.getEntity(type, Integer.parseInt(intX), Integer.parseInt(intY));
+                entities.add(newEntity);
+            }
+        }
+        return new Dungeon(entities);
+    }
+
+    public static void main(String args[]) throws IOException {
+        JsonObject test = JsonParser.parseString(FileLoader.loadResourceFile("dungeons/2_doors.json")).getAsJsonObject();
+        JsonArray entities = (JsonArray) test.get("entities");
+        for (JsonElement e : entities) {
+            System.out.println(e);
+        }
+        Dungeon dungeon = createNewDungeon("dungeons/2_doors.json");
+        System.out.println(dungeon.getEntities());
+    }   
 }
