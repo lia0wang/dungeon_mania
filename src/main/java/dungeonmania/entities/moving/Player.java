@@ -1,6 +1,7 @@
 package dungeonmania.entities.moving;
 
 import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
 
 public class Player extends MovingEntity implements MovementBehaviour{
     private Inventory inventory;
@@ -14,6 +15,14 @@ public class Player extends MovingEntity implements MovementBehaviour{
 
     public void move(Direction direction) {
         // TODO
+        Position directionPos = direction.getOffset();
+        int newX = directionPos.getX() + this.getPosition().getX();
+        int newY = directionPos.getY() + this.getPosition().getY();
+        Position targetPosition = new Position(newX, newY);
+
+        if (this.getDungeon().checkMove(this)) {
+            this.setPosition(targetPosition);
+        }
     }
     
     public Inventory getInventory() {
