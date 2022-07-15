@@ -1,10 +1,10 @@
-package dungeonmania;
+package dungeonmania.entities.moving;
 
 public class GameOverState implements PlayerState {
-    private String playerstate;
+    private String playerState;
 
     public GameOverState() {
-        this.playerstate = "GameOverState";
+        this.playerState = "GameOverState";
     }
 
     @Override

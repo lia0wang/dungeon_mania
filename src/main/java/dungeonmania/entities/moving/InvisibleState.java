@@ -1,10 +1,10 @@
-package dungeonmania;
+package dungeonmania.entities.moving;
 
 public class InvisibleState implements PlayerState {
-    private String playerstate;
+    private String playerState;
 
     public InvisibleState() {
-        this.playerstate = "InvisibleState";
+        this.playerState = "InvisibleState";
     }
 
     @Override
