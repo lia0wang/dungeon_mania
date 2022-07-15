@@ -14,7 +14,4 @@ public class Wall extends BaseEntity{
     public boolean hasCollision() {
         return hasCollision;
     }
-
-    public void interact() {}
-
 }
