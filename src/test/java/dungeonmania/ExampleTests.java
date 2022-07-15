@@ -25,7 +25,6 @@ import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.RoundResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
-import dungeonmania.util.FileLoader;
 
 
 public class ExampleTests {
@@ -33,13 +32,6 @@ public class ExampleTests {
     @DisplayName("Test the player can move down")
     public void testMovementDown() {
         DungeonManiaController dmc = new DungeonManiaController();
-        String s = "yar";
-        try {
-            s = FileLoader.loadResourceFile("/dungeons/maze.json");
-        }
-        catch (Exception e) {
-            s = "noss";
-        }
         DungeonResponse initDungonRes = dmc.newGame("d_movementTest_testMovementDown", "c_movementTest_testMovementDown");
         EntityResponse initPlayer = getPlayer(initDungonRes).get();
 
