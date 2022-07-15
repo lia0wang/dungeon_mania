@@ -4,21 +4,33 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class Player extends MovingEntity implements MovementBehaviour{
-    private Inventory inventory = new Inventory();
-   
-    public Player(Position position, int x, int y) {
-        super(position, x, y);
+    private Inventory inventory;
+    private PlayerState playerstate;
+    private final String type = "player";
+    
+    public Player(int x, int y) {
+        super(x, y);
+        this.inventory = new Inventory();
+        this.playerstate = new DefaultState();
     }
 
     public void move(Direction direction) {
         // TODO
     }
+
+    public String getType() {
+        return this.type;
+    }
     
-    /**
-     * Get the inventory of the player.
-     * @return inventory
-     */
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public PlayerState getPlayerstate() {
+        return this.playerstate;
+    }
+
+    public void setPlayerState(PlayerState playerstate) {
+        this.playerstate = playerstate;
     }
 }
