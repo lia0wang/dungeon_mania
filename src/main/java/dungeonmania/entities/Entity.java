@@ -32,8 +32,8 @@ public class Entity {
      */
     public Entity(int x, int y, String type) {
         this.position = new Position(x, y);
-        this.type = type;
         this.id = generateId(type, this.position);
+        this.type = type;
         this.isInteractable = false;
     }
     
@@ -126,12 +126,9 @@ public class Entity {
      */
     public JSONObject getJSONObject() {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", this.id);
-        jsonObject.put("type", this.type);
         jsonObject.put("x", this.position.getX());
         jsonObject.put("y", this.position.getY());
-        jsonObject.put("layer", this.position.getLayer());
-        jsonObject.put("isInteractable", this.isInteractable);
+        jsonObject.put("type", this.type);
         return jsonObject;
     }
     
