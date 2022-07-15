@@ -22,6 +22,7 @@ public class Entity {
     private String type;
     private Position position;
     private boolean isInteractable;
+    protected Dungeon dungeon;
     
     /**
      * Constructor for Entity
@@ -44,9 +45,18 @@ public class Entity {
      * @param id
      * @param type
      */
-    public Entity(String id, String type) {
+    public Entity(String id, String type, Dungeon dungeon) {
         this.id = id;
         this.type = type;
+        this.dungeon = dungeon;
+    }
+
+    /**
+     * Get the dungeon that the entity belongs to
+     * @return dungeon
+     */
+    public Dungeon getDungeon() {
+        return dungeon;
     }
 
     /**
