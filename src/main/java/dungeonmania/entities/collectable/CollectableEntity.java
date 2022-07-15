@@ -58,42 +58,21 @@ public class CollectableEntity extends Entity {
     }
     
     /**
-     * The entity is consumed by the player.
-     */
-    public void beConsumed(Player player) {
-        this.durability--;
-        if (this.durability == 0) {
-            player.getInventory().removeCollection(this);
-        }
-    }
-
-    /**
-     * Be collected by the player and be removed from the entity arraylist.
+     * Be collected by the player then be removed from the entity arraylist.
      *
      * @param player
      * @param entities
      */
-    public void beCollected(Player player, ArrayList<Entity> entities) {
+    public void collectedByPlayer(Player player, ArrayList<Entity> entities) {
         player.getInventory().addCollection(this);
         entities.remove(this);
     }
-    
-    /**
-     * Be dropped by the player and be added to the entity arraylist.
-     *
-     * @param player
-     * @param entities
-     */
-    public void beDropped(Player player, ArrayList<Entity> entities) {
-        player.getInventory().removeCollection(this);
-        entities.add(this);
-    }
-    
+
     /**
      * Create the ItemResponse of the entity.
-     *
+     * @return ItemResponse
      */
-    public ItemResponse toItemResponse() {
+    public ItemResponse getItemResponse() {
         return new ItemResponse(this.getId(), this.getType());
     }
 }
