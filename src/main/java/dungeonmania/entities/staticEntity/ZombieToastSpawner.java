@@ -1,13 +1,12 @@
 package dungeonmania.entities.staticEntity;
 
-import dungeonmania.entities.BaseEntity;
-import dungeonmania.util.Position;
+import dungeonmania.entities.Entity;
 
-public class ZombieToastSpawner extends BaseEntity{
+public class ZombieToastSpawner extends Entity{
     private boolean hasCollision;
 
-    public ZombieToastSpawner(String id, String type, Position position) {
-        super(id, type, position);
+    public ZombieToastSpawner(int x, int y, String type) {
+        super(x, y, type);
         this.hasCollision = false;
     }
 

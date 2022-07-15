@@ -1,14 +1,13 @@
 package dungeonmania.entities.staticEntity;
 
-import dungeonmania.entities.BaseEntity;
-import dungeonmania.util.Position;
+import dungeonmania.entities.Entity;
 
-public class Door extends BaseEntity{
+public class Door extends Entity{
     private boolean hasCollision;
     private String key;
 
-    public Door(String id, String type, Position position, String key) {
-        super(id, type, position);
+    public Door(int x, int y, String type, String key) {
+        super(x, y, type);
         this.hasCollision = true;
         this.key = key;
     }

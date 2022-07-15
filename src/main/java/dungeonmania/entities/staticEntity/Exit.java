@@ -1,13 +1,12 @@
 package dungeonmania.entities.staticEntity;
 
-import dungeonmania.entities.BaseEntity;
-import dungeonmania.util.Position;
+import dungeonmania.entities.Entity;
 
-public abstract class Exit extends BaseEntity{
+public abstract class Exit extends Entity{
     private boolean hasCollision;
 
-    public Exit(String id, String type, Position position) {
-        super(id, type, position);
+    public Exit(int x, int y, String type) {
+        super(x, y, type);
         this.hasCollision = false;
     }
 

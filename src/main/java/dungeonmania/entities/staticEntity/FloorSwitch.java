@@ -1,14 +1,13 @@
 package dungeonmania.entities.staticEntity;
 
-import dungeonmania.entities.BaseEntity;
-import dungeonmania.util.Position;
+import dungeonmania.entities.Entity;
 
-public class FloorSwitch extends BaseEntity{
+public class FloorSwitch extends Entity{
     private boolean hasCollision;
     private boolean triggered;
 
-    public FloorSwitch(String id, String type, Position position) {
-        super(id, type, position);
+    public FloorSwitch(int x, int y, String type) {
+        super(x, y, type);
         this.hasCollision = false;
         this.triggered = false;
     }

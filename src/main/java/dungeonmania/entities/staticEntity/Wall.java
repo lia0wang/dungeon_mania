@@ -1,13 +1,12 @@
 package dungeonmania.entities.staticEntity;
 
-import dungeonmania.entities.BaseEntity;
-import dungeonmania.util.Position;
+import dungeonmania.entities.Entity;
 
-public class Wall extends BaseEntity{
+public class Wall extends Entity{
     private boolean hasCollision;
 
-    public Wall(String id, String type, Position position) {
-        super(id, type, position);
+    public Wall(int x, int y, String type) {
+        super(x, y, type);
         this.hasCollision = false;
     }
 

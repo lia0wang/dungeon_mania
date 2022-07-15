@@ -1,13 +1,13 @@
 package dungeonmania.entities.staticEntity;
 
-import dungeonmania.entities.BaseEntity;
+import dungeonmania.entities.Entity;
 import dungeonmania.util.Position;
 
-public class Boulder extends BaseEntity{
+public class Boulder extends Entity{
     private boolean hasCollision;
 
-    public Boulder(String id, String type, Position position) {
-        super(id, type, position);
+    public Boulder(int x, int y, String type, String key) {
+        super(x, y, type);
         this.hasCollision = true;
     }
 
