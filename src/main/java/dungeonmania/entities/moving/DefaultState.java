@@ -1,10 +1,10 @@
-package dungeonmania;
+package dungeonmania.entities.moving;
 
 public class DefaultState implements PlayerState{
-    private String playerstate;
+    private String playerState;
 
     public DefaultState() {
-        this.playerstate = "DefaultState";
+        this.playerState = "DefaultState";
     }
 
     @Override

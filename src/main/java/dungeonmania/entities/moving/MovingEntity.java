@@ -1,5 +1,5 @@
 package dungeonmania.entities.moving;
-import dungeonmania.util.Position;
+import dungeonmania.entities.Entity;
 
 public class MovingEntity extends Entity{
 
