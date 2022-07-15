@@ -1,5 +1,6 @@
 package dungeonmania.entities;
 
+import dungeonmania.entities.collectable.Treasure;
 import dungeonmania.entities.moving.Player;
 
 public class EntityFactory {
@@ -9,6 +10,8 @@ public class EntityFactory {
         }
         if (entityType.equalsIgnoreCase("player")) {
             return new Player(x, y);
+        } else if (entityType.equalsIgnoreCase("treasure")) {
+            return new Treasure(x, y);
         }
         return null;
     }

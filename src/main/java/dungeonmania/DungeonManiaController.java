@@ -97,23 +97,21 @@ public class DungeonManiaController {
         for (JsonElement e : jsonEntities) {
             JsonObject entityObj = e.getAsJsonObject();
             String type = entityObj.get("type").toString().replaceAll("\"", "");
-            if (type.equalsIgnoreCase("player")) {
                 String intX = entityObj.get("x").toString();
                 String intY = entityObj.get("y").toString();
                 Entity newEntity = entityFactory.getEntity(type, Integer.parseInt(intX), Integer.parseInt(intY));
                 entities.add(newEntity);
-            }
         }
         return new Dungeon(entities);
     }
 
     public static void main(String args[]) throws IOException {
-        JsonObject test = JsonParser.parseString(FileLoader.loadResourceFile("dungeons/2_doors.json")).getAsJsonObject();
+        JsonObject test = JsonParser.parseString(FileLoader.loadResourceFile("dungeons/test_createNewDungeon.json")).getAsJsonObject();
         JsonArray entities = (JsonArray) test.get("entities");
         for (JsonElement e : entities) {
             System.out.println(e);
         }
-        Dungeon dungeon = createNewDungeon("dungeons/2_doors.json");
+        Dungeon dungeon = createNewDungeon("dungeons/test_createNewDungeon.json");
         System.out.println(dungeon.getEntities());
     }   
 }
