@@ -2,6 +2,7 @@ package dungeonmania.entities.collectable;
 
 import java.util.ArrayList;
 
+import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.moving.Player;
 import dungeonmania.response.models.ItemResponse;
@@ -35,8 +36,8 @@ public class CollectableEntity extends Entity {
      * @param id
      * @param type
      */
-    public CollectableEntity(String id, String type) {
-        super(id, type);
+    public CollectableEntity(String id, String type, Dungeon dungeon) {
+        super(id, type, dungeon);
     }
     
     /**
