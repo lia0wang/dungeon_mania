@@ -1,16 +1,10 @@
 package dungeonmania.entities.moving;
-import dungeonmania.util.Position;
+import dungeonmania.entities.Entity;
 
-public class MovingEntity {
-    private Position position;
+public class MovingEntity extends Entity{
 
-    public MovingEntity(Position position, int x, int y) {
-        position = new Position(x, y);
-        this.position = position;
-    }
-
-    public Position getPosition() {
-        return this.position;
+    public MovingEntity(int x, int y, String type) {
+        super(x, y, type);
     }
 
 }
