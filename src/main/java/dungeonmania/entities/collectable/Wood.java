@@ -5,30 +5,30 @@ import org.json.JSONObject;
 import dungeonmania.entities.moving.player.Player;
 
 /**
- * class for Treasure.
+ * class for Wood.
  * 
  * @author Wang Liao, <add_your_name>
  * @version 1.0
  *
  */
-public class Treasure extends CollectableEntity implements IConsumableBehavior {
+public class Wood extends CollectableEntity implements IConsumableBehavior {
     /**
-     * Constructors for Treasure.
+     * Constructors for Wood.
      */
-    public Treasure(int x, int y, String type) {
+    public Wood(int x, int y, String type) {
         super(x, y, type);
     }
     
-    public Treasure(JSONObject json) {
+    public Wood(JSONObject json) {
         super(json.getInt("x"), json.getInt("y"), json.getString("type"));
     }
     
-    public Treasure() {
-        this(0, 0, "treasure");
+    public Wood() {
+        this(0, 0, "wood");
     }
 
-    public Treasure(int x, int y) {
-        this(x, y, "treasure");
+    public Wood(int x, int y) {
+        this(x, y, "wood");
     }
 
     /**
