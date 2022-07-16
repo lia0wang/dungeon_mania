@@ -18,11 +18,7 @@ public class Dungeon {
 
         // the check for a valid map would need to be done in the controller,
         // so this JSONObject may need to be created there
-        try {
-            JSONObject configuration = new JSONObject(FileLoader.loadResourceFile("/resource/" + mapName + ".json"));
-        } catch (Exception e) {
-            
-        }
+        JSONObject configuration = new JSONObject(FileLoader.loadResourceFile("/resource/" + mapName + ".json"));
         
         this.populate(entities, configuration);
     }
