@@ -1,17 +1,12 @@
 package dungeonmania.entities.staticEntity;
 
 import dungeonmania.entities.Entity;
+import dungeonmania.util.Position;
 
 public class Boulder extends Entity{
-    private boolean hasCollision;
-
-    public Boulder(int x, int y, String type, String key) {
+    public Boulder(int x, int y, String type) {
         super(x, y, type);
-        this.hasCollision = true;
-    }
-
-    public boolean hasCollision() {
-        return hasCollision;
+        this.setCollision(true);
     }
 
     // moves the rock
