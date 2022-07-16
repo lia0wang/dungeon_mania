@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.json.JSONObject;
 
 /**
- * Base class for all entities.
+ * base abstract class for all entities.
  * 
  * @author Wang Liao, <add_your_name>
  * @version 2.0
@@ -19,7 +19,7 @@ import org.json.JSONObject;
  *             - isInteractable (boolean)   - whether the entity is interactable (only pertains to mercenaries and zombie toast spawners)
  *             - hasCollision (boolean)     - whether the entity will deny the player (or other entity) to move through them
  */
-public class Entity {
+public abstract class Entity {
     private String id;
     private String type;
     private Position position;
