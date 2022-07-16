@@ -1,4 +1,6 @@
 package dungeonmania.entities.goal;
+import dungeonmania.entities.Dungeon;
+import dungeonmania.entities.staticEntity.FloorSwitch;
 
 public class BouldersGoal implements Goal{
     private Dungeon dungeon;
@@ -9,12 +11,9 @@ public class BouldersGoal implements Goal{
 
     @Override
     public boolean goalAchieved() {
-        // wait for Dungeon class
-        /*
-        if (getDungeon().getSwitches().stream().allMatch(FloorSwitch::isTriggered))) {
+        if (this.dungeon.getFloorSwitches().stream().allMatch(s->((FloorSwitch) s).isTriggered())) {
             return true;
         }
         return false;
-         */
     }
 }
