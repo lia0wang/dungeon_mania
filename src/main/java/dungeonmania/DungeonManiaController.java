@@ -5,12 +5,16 @@ import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 
+import dungeonmania.entities.Dungeon;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class DungeonManiaController {
+    private Dungeon dungeon;
+
     public String getSkin() {
         return "default";
     }
@@ -37,6 +41,20 @@ public class DungeonManiaController {
      * /game/new
      */
     public DungeonResponse newGame(String dungeonName, String configName) throws IllegalArgumentException {
+        String dungeonMap = "";
+        String configs = "";
+
+        try {
+            dungeonMap = FileLoader.loadResourceFile("/dungeons/" + dungeonName + ".json");
+            configs = FileLoader.loadResourceFile("/configs/" + configName + ".json");
+        } catch (Exception e) {
+            throw new IllegalArgumentException();
+        }
+        
+        this.dungeon = new Dungeon(dungeonMap, configs);
+
+        //make dungeonResponse
+
         return null;
     }
 
