@@ -13,6 +13,8 @@ public class Dungeon {
     private ArrayList<Entity> enemies;
     private ArrayList<String> goals;
     private String goalSetting = "AND";
+    private String Id;
+    private static Integer nextDungeonId = 0;
     
     /**
      * Constructor for Dungoen
@@ -23,6 +25,8 @@ public class Dungeon {
     public Dungeon(String dungeonMap, String configs) {
         this.configs = new JSONObject(configs);
         this.populate(new JSONObject(dungeonMap));
+        this.Id = "dungeon_" + Integer.toString(nextDungeonId);
+        nextDungeonId++;
     }
 
     /**
@@ -35,12 +39,30 @@ public class Dungeon {
     }
 
     /**
+     * Get dungeon Id
+     *
+     * @return Id
+     */
+    public String getId() {
+        return Id;
+    }
+
+    /**
      * Get an array of all non-enemy entities that are still on the map.
      *
      * @return entities
      */
     public ArrayList<Entity> getEntities() {
         return entities;
+    }
+
+    /**
+     * Add an entity to the dungeon.
+     *
+     * @param newEntity
+     */
+    public void addEntity(Entity newEntity) {
+        entities.add(newEntity);
     }
 
     /**
@@ -53,6 +75,15 @@ public class Dungeon {
     }
 
     /**
+     * Add an enemy to the dungeon.
+     *
+     * @param newEntity
+     */
+    public void addEnemy(Entity newEnemy) {
+        enemies.add(newEnemy);
+    }
+
+    /**
      * Get an array of all goals.
      *
      * @return goals
@@ -62,7 +93,19 @@ public class Dungeon {
     }
 
     /**
-     * Populates the dungeon class with entities specified by the map.
+     * Remove a goal.
+     *
+     * @param goal
+     */
+    public void removeGoal(String goal) {
+        goals.remove(goal);
+        if (goals.size() == 0) {
+            //make the user win the game
+        }
+    }
+
+    /**
+     * Populates the dungeon class with entities and stores the goals specified by the map.
      *
      * @param configuration
      */
@@ -108,8 +151,19 @@ public class Dungeon {
             }
         }
 
-        JSONArray allGoals = configuration.getJSONArray("goal-condition");
+        JSONObject allGoals = configuration.getJSONObject("goal-condition");
+        if (allGoals.has("subgoals")) {
+            this.goalSetting = allGoals.getString("goal");
+            JSONArray subGoals = configuration.getJSONArray("subgoals");
 
+            for (Object e : subGoals) {
+                JSONObject currGoal = (JSONObject) e;
+                goals.add(currGoal.getString("goal"));
+            }
+
+        } else {
+            goals.add(allGoals.getString("goal"));
+        }
     }
     
     /**
