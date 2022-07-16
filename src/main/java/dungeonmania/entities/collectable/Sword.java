@@ -10,8 +10,9 @@ import dungeonmania.entities.moving.Player;
  * @author Wang Liao, <add_your_name>
  * @version 1.0
  *
+ * @attributes - attackDamage (int) - the attack damage of the sword
  */
-public class Sword extends CollectableEntity implements IEquipmentBehavior, IWeaponBehavior {
+public class Sword extends CollectableEntity implements IWeaponBehavior, IEquipmentBehavior {
     private float attackDamage;
 
     /**
