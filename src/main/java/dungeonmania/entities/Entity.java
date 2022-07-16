@@ -15,13 +15,14 @@ import org.json.JSONObject;
  *             - type (String)              - type of the entity
  *             - position (Position)        - position of the entity
  *             - isInteractable (boolean)   - whether the entity is interactable (only pertains to mercenaries and zombie toast spawners)
- *
+ *             - hasCollision (boolean)     - whether the entity will deny the player (or other entity) to move through them
  */
 public class Entity {
     private String id;
     private String type;
     private Position position;
     private boolean isInteractable;
+    private boolean hasCollision;
     
     /**
      * Constructor for Entity
@@ -36,6 +37,7 @@ public class Entity {
         this.id = generateId(type, this.position);
         this.type = type;
         this.isInteractable = false;
+        this.hasCollision = false;
     }
     
     /**
@@ -119,6 +121,24 @@ public class Entity {
      */
     public void setInteractable(boolean isInteractable) {
         this.isInteractable = isInteractable;
+    }
+
+    /**
+     * Get the collision boolean of the entity.
+     *
+     * @return hasCollision
+     */
+    public boolean getCollision() {
+        return hasCollision;
+    }
+    
+    /**
+     * Set the collision boolean of the entity.
+     *
+     * @param hasCollision
+     */
+    public void setCollision(Boolean hasCollision) {
+        this.hasCollision = hasCollision;
     }
 
     /**
