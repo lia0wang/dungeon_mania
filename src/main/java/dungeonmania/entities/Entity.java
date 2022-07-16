@@ -3,6 +3,8 @@ package dungeonmania.entities;
 import dungeonmania.util.Position;
 import dungeonmania.response.models.EntityResponse;
 
+import java.util.UUID;
+
 import org.json.JSONObject;
 
 /**
@@ -15,13 +17,14 @@ import org.json.JSONObject;
  *             - type (String)              - type of the entity
  *             - position (Position)        - position of the entity
  *             - isInteractable (boolean)   - whether the entity is interactable (only pertains to mercenaries and zombie toast spawners)
- *
+ *             - hasCollision (boolean)     - whether the entity will deny the player (or other entity) to move through them
  */
 public class Entity {
     private String id;
     private String type;
     private Position position;
     private boolean isInteractable;
+    private boolean hasCollision;
     
     /**
      * Constructor for Entity
@@ -36,6 +39,7 @@ public class Entity {
         this.id = generateId(type, this.position);
         this.type = type;
         this.isInteractable = false;
+        this.hasCollision = false;
     }
     
     /**
@@ -104,6 +108,22 @@ public class Entity {
     }
     
     /**
+     * Return the x-cooridinate of an entity
+     * @return
+     */
+    public int getPositionX() {
+        return this.position.getX();
+    }
+
+    /**
+     * Return the y-cooridinate of an entity
+     * @return
+     */
+    public int getPositionY() {
+        return this.position.getY();
+    }
+    
+    /**
      * Get the isInteractable of the entity.
      *
      * @return isInteractable
@@ -119,6 +139,24 @@ public class Entity {
      */
     public void setInteractable(boolean isInteractable) {
         this.isInteractable = isInteractable;
+    }
+
+    /**
+     * Get the collision boolean of the entity.
+     *
+     * @return hasCollision
+     */
+    public boolean getCollision() {
+        return hasCollision;
+    }
+    
+    /**
+     * Set the collision boolean of the entity.
+     *
+     * @param hasCollision
+     */
+    public void setCollision(Boolean hasCollision) {
+        this.hasCollision = hasCollision;
     }
 
     /**
@@ -162,7 +200,7 @@ public class Entity {
      * @return id
      */
     private String generateId(String type, Position position) {
-        return type + "_" + Integer.toString(position.getX()) + "_" + Integer.toString(position.getY()) + "_" + Integer.toString(position.getLayer());
+        return UUID.randomUUID().toString();
     }
     
     /**
