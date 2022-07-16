@@ -1,28 +1,25 @@
 package dungeonmania.entities.moving;
 
 import dungeonmania.util.Direction;
-import dungeonmania.util.Position;
 
-public class Player extends MovingEntity implements MovementBehaviour{
+public class Player extends MovingEntity {
     private Inventory inventory;
+    private MovementBehaviour movement;
     private PlayerState playerState;
     
     public Player(int x, int y) {
         super(x, y, "player");
         this.inventory = new Inventory();
         this.playerState = new DefaultState();
+        this.movement = new PlayerMovement();
     }
 
-    public void move(Direction direction) {
-        // TODO
-        Position directionPos = direction.getOffset();
-        int newX = directionPos.getX() + this.getPosition().getX();
-        int newY = directionPos.getY() + this.getPosition().getY();
-        Position targetPosition = new Position(newX, newY);
+    public MovementBehaviour getMovement() {
+        return movement;
+    }    
 
-        if (this.getDungeon().checkMove(this)) {
-            this.setPosition(targetPosition);
-        }
+    public void move(Direction direction) {
+        this.movement.move(direction, this);
     }
     
     public Inventory getInventory() {
