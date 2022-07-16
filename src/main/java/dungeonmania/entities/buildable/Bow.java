@@ -1,39 +1,42 @@
-package dungeonmania.entities.collectable;
+package dungeonmania.entities.buildable;
 
 import org.json.JSONObject;
 
+import dungeonmania.entities.collectable.CollectableEntity;
+import dungeonmania.entities.collectable.IEquipmentBehavior;
+import dungeonmania.entities.collectable.IWeaponBehavior;
 import dungeonmania.entities.moving.Player;
 
 /**
- * class for Sword.
+ * class for Bow.
  * 
  * @author Wang Liao, <add_your_name>
  * @version 1.0
  *
- * @attributes - attackDamage (int) - the attack damage of the sword
+ * @attributes - attackDamage (int) - the attack damage of the bow
  */
-public class Sword extends CollectableEntity implements IWeaponBehavior, IEquipmentBehavior {
+public class Bow extends CollectableEntity implements IWeaponBehavior, IEquipmentBehavior {
     private float attackDamage;
 
     /**
-     * Constructors for Sword.
+     * Constructors for Bow.
      */
-    public Sword(int x, int y, String type) {
+    public Bow(int x, int y, String type) {
         super(x, y, type);
         this.setDurability(3);
-        this.setAttackDamage(1);
+        this.setAttackDamage(2);
     }
     
-    public Sword(JSONObject json) {
+    public Bow(JSONObject json) {
         this(json.getInt("x"), json.getInt("y"), json.getString("type"));
     }
     
-    public Sword() {
-        this(0, 0, "sword");
+    public Bow() {
+        this(0, 0, "bow");
     }
     
-    public Sword(int x, int y) {
-        this(x, y, "sword");
+    public Bow(int x, int y) {
+        this(x, y, "bow");
     }
     
     /**
