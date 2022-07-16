@@ -3,6 +3,8 @@ package dungeonmania.entities;
 import dungeonmania.util.Position;
 import dungeonmania.response.models.EntityResponse;
 
+import java.util.UUID;
+
 import org.json.JSONObject;
 
 /**
@@ -182,7 +184,7 @@ public class Entity {
      * @return id
      */
     private String generateId(String type, Position position) {
-        return type + "_" + Integer.toString(position.getX()) + "_" + Integer.toString(position.getY()) + "_" + Integer.toString(position.getLayer());
+        return UUID.randomUUID().toString();
     }
     
     /**

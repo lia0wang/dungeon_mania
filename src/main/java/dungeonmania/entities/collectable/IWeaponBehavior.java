@@ -1,7 +1,7 @@
 package dungeonmania.entities.collectable;
 
 /**
- * interface for equipment behavior - Sword, Shield, Bow.
+ * interface for equipment behavior - Sword, Bow.
  * 
  * @author Wang Liao, <add_your_name>
  * @version 1.0
