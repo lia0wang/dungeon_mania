@@ -1,14 +1,18 @@
 package dungeonmania.entities;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import dungeonmania.entities.collectable.Treasure;
+import dungeonmania.entities.moving.Player;
 import dungeonmania.entities.staticEntity.*;
 
 public class Dungeon {
     private JSONObject configs;
+    private Player player;
     private ArrayList<Entity> entities;
     private ArrayList<Entity> enemies;
     private ArrayList<String> goals;
@@ -39,6 +43,14 @@ public class Dungeon {
     }
 
     /**
+     * Return the player in this dungeon
+     * @return
+     */
+    public Player getPlayer() {
+        return this.player;
+    }
+    
+    /** 
      * Get dungeon Id
      *
      * @return Id
@@ -54,6 +66,18 @@ public class Dungeon {
      */
     public ArrayList<Entity> getEntities() {
         return entities;
+    }
+
+    /**
+     * Get all entities that are in (x,y) on the map
+     * 
+     * @param x
+     * @param y
+     * @return
+     */
+    public ArrayList<Entity> getAllEntitiesinPosition(int x, int y) {
+        return entities.stream().filter(entity -> (entity.getPositionX() == x && entity.getPositionY() == y))
+        .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -74,6 +98,26 @@ public class Dungeon {
         return enemies;
     }
 
+    /**
+     * Get an array of all treasures that are still on the map
+     * 
+     * @return
+     */
+    public ArrayList<Entity> getTreasures() {
+        return entities.stream().filter(entity -> entity.getType() == "treasure").map(Treasure.class::cast)
+				.collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    /**
+     * Get an array of all switches that are on the map
+     * 
+     * @return
+     */
+    public ArrayList<Entity> getFloorSwitches() {
+        return entities.stream().filter(entity -> entity.getType() == "switch").map(FloorSwitch.class::cast)
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+    
     /**
      * Add an enemy to the dungeon.
      *
