@@ -1,9 +1,7 @@
 package dungeonmania.entities.collectable;
 
-import dungeonmania.entities.moving.Player;
-
 /**
- * interface for weapon behavior - Sword, Shield, Bow.
+ * interface for equipment behavior - Sword, Shield, Bow.
  * 
  * @author Wang Liao, <add_your_name>
  * @version 1.0
@@ -11,8 +9,16 @@ import dungeonmania.entities.moving.Player;
  */
 public interface IWeaponBehavior {
     /**
-     * Used by the player then it is removed from the inventory if the durability is 0.
-     * This is used for Sword, Bow, Shield
+     * Set the attack damage of the weapon.
+     *
+     * @param attackDamage
      */
-    public void usedInBattle(Player player);
+    public void setAttackDamage(int attackDamage);
+
+    /**
+     * Get the attack damage of the weapon.
+     *
+     * @return attackDamage
+     */
+    public float getAttackDamage();
 }
