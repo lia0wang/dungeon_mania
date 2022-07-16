@@ -9,6 +9,11 @@ public class EnemiesGoal implements Goal{
 
     @Override
     public boolean goalAchieved() {
-        
+        /*
+        if (getDungeon.getEnemies().size() == 0) {}
+            return true;
+        }
+        return false;
+         */
     }
 }

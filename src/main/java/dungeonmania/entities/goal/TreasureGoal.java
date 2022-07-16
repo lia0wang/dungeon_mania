@@ -9,6 +9,12 @@ public class TreasureGoal implements Goal{
 
     @Override
     public boolean goalAchieved() {
-        
+        // wait for Dungeon class
+        /*
+        if (getDungeon().getTreasures().size() == 0) {
+            return true;
+        }
+        return false;
+        */
     }
 }

@@ -9,6 +9,14 @@ public class ExitGoal implements Goal{
 
     @Override
     public boolean goalAchieved() {
-        
+        // wait for Dungeon class
+        /*
+        Player player = getDungeon().getPlayer();
+        Exit exit = getDungeon().getExit();
+        if (player.isAtSamePosition(exit)) {
+            return true;
+        }
+        return false;
+        */
     }
 }
