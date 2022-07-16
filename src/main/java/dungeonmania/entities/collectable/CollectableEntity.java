@@ -58,6 +58,13 @@ public class CollectableEntity extends Entity {
     }
     
     /**
+     * Decrease the durability of the entity.
+     */
+    public void decreaseDurability() {
+        this.durability--;
+    }
+
+    /**
      * Be collected by the player then be removed from the entity arraylist.
      *
      * @param player
