@@ -1,33 +1,72 @@
 package dungeonmania.entities;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import dungeonmania.util.FileLoader;
+import dungeonmania.entities.staticEntity.*;
 
 public class Dungeon {
-    private String name;
+    private JSONObject configs;
     private ArrayList<Entity> entities;
     private ArrayList<Entity> enemies;
     private ArrayList<String> goals;
-    private HashMap<String, Integer> collectables;
+    private String goalSetting = "AND";
     
-    public Dungeon(String name, String mapName) {
-        this.name = name;
-
-        // the check for a valid map would need to be done in the controller,
-        // so this JSONObject may need to be created there
-        // will need try & catch for exception handling
-        
-        // JSONObject configuration = new JSONObject(FileLoader.loadResourceFile("/resource/" + mapName + ".json"));
-        // this.populate(entities, configuration);
+    /**
+     * Constructor for Dungoen
+     *
+     * @param dungeonMap
+     * @param configs
+     */
+    public Dungeon(String dungeonMap, String configs) {
+        this.configs = new JSONObject(configs);
+        this.populate(new JSONObject(dungeonMap));
     }
 
-    public void populate(ArrayList<Entity> entities, JSONObject configuration) {
+    /**
+     * Get a JSONObject of all configurations.
+     *
+     * @return configs
+     */
+    public JSONObject getConfigs() {
+        return configs;
+    }
+
+    /**
+     * Get an array of all non-enemy entities that are still on the map.
+     *
+     * @return entities
+     */
+    public ArrayList<Entity> getEntities() {
+        return entities;
+    }
+
+    /**
+     * Get an array of all enemies that are still on the map.
+     *
+     * @return enemies
+     */
+    public ArrayList<Entity> getEnemies() {
+        return enemies;
+    }
+
+    /**
+     * Get an array of all goals.
+     *
+     * @return goals
+     */
+    public ArrayList<String> getGoals() {
+        return goals;
+    }
+
+    /**
+     * Populates the dungeon class with entities specified by the map.
+     *
+     * @param configuration
+     */
+    public void populate(JSONObject configuration) {
         JSONArray allEntities = configuration.getJSONArray("entities");
         for (Object e : allEntities) {
 
@@ -36,21 +75,41 @@ public class Dungeon {
             int y = currEntity.getInt("y");
             String type = currEntity.getString("type");
 
-            if (type.equals("portal")) {
-                String colour = currEntity.getString("colour");
+            switch (type) {
+                case "player":
+                case "wall":
+                    entities.add(new Wall(x, y, type));
+                case "exit":
+                    entities.add(new Exit(x, y, type));
+                case "boulder":
+                    entities.add(new Boulder(x, y, type));
+                case "switch":
+                    entities.add(new FloorSwitch(x, y, type));
+                case "door":
+                    String key = currEntity.getString("key");
+                    entities.add(new Door(x, y, type, key));
+                case "portal":
+                    String colour = currEntity.getString("colour");
+                    entities.add(new Door(x, y, type, colour));
+                case "zombie_toast_spawner":
+                    entities.add(new ZombieToastSpawner(x, y, type)); 
+                case "spider":
 
-            } else if (type.equals("door")) {
-
-            } else if (type.equals("key")) {
-
-            } else {
-                // maybe more checks
+                case "zombie_toast":
+                case "mercenary":
+                case "treasure":
+                case "key":
+                case "invincibility_potion":
+                case "invisibility_potion":
+                case "wood":
+                case "arrow":
+                case "bomb":
+                case "sword":
             }
         }
-    }
 
-    public List<Entity> getEntities() {
-        return entities;
+        JSONArray allGoals = configuration.getJSONArray("goal-condition");
+
     }
     
     /**
