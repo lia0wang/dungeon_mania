@@ -1,27 +1,22 @@
 package dungeonmania;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static dungeonmania.TestUtils.getPlayer;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import org.json.JSONObject;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import dungeonmania.response.models.DungeonResponse;
-import dungeonmania.response.models.EntityResponse;
-import dungeonmania.entities.Entity;
-import dungeonmania.entities.moving.Player;
 import dungeonmania.util.Direction;
-import dungeonmania.util.Position;
-
+import static dungeonmania.TestUtils.getGoals;
 
 public class GoalTests {
     @Test
     @DisplayName("Test the player sucessfully achieved basic exit goal")
-    void testBasicExitGoal() {
+    public void testBasicExitGoal() {
         DungeonManiaController dmc = new DungeonManiaController();
-        DungeonResponse initDungonRes = dmc.newGame("d_goalTest_basicExitGoal", "c_movementTest_testMovementDown");
+        DungeonResponse res = dmc.newGame("d_goalTest_basicExitGoal", "c_movementTest_testMovementDown");
         
         assertTrue(getGoals(res).contains(":exit"));
 
@@ -34,9 +29,9 @@ public class GoalTests {
 
     @Test
     @DisplayName("Test the player sucessfully achieved basic enemies goal")
-    void testBasicEnemiesGoal() {
+    public void testBasicEnemiesGoal() {
         DungeonManiaController dmc = new DungeonManiaController();
-        DungeonResponse initDungonRes = dmc.newGame("d_goalTest_basicEnemiesGoal", "c_movementTest_testMovementDown");
+        DungeonResponse res = dmc.newGame("d_goalTest_basicEnemiesGoal", "c_movementTest_testMovementDown");
         
         assertTrue(getGoals(res).contains(":enemies"));
 
@@ -48,9 +43,9 @@ public class GoalTests {
 
     @Test
     @DisplayName("Test the player sucessfully achieved basic treasures goal")
-    void testBasicTreasureGoal() {
+    public void testBasicTreasureGoal() {
         DungeonManiaController dmc = new DungeonManiaController();
-        DungeonResponse initDungonRes = dmc.newGame("d_goalTest_basicTreasureGoal", "c_movementTest_testMovementDown");
+        DungeonResponse res = dmc.newGame("d_goalTest_basicTreasureGoal", "c_movementTest_testMovementDown");
         
         assertTrue(getGoals(res).contains(":treasure"));
 
@@ -62,9 +57,9 @@ public class GoalTests {
 
     @Test
     @DisplayName("Test the player sucessfully achieved basic boulders goal")
-    void testBasicBouldersGoal() {
+    public void testBasicBouldersGoal() {
         DungeonManiaController dmc = new DungeonManiaController();
-        DungeonResponse initDungonRes = dmc.newGame("d_goalTest_basicBouldersGoal", "c_movementTest_testMovementDown");
+        DungeonResponse res = dmc.newGame("d_goalTest_basicBouldersGoal", "c_movementTest_testMovementDown");
         
         assertTrue(getGoals(res).contains(":boulders"));
 
@@ -73,7 +68,7 @@ public class GoalTests {
         
         assertEquals("", getGoals(res));
     }
-    
+
 }
 
 
