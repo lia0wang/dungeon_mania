@@ -32,6 +32,15 @@ public class Inventory {
     }
     
     /**
+     * Check if the inventory contains the collectable entity.
+     *
+     * @param entity
+     */
+    public boolean contains(CollectableEntity entity) {
+        return this.collections.contains(entity);
+    }
+    
+    /**
      * Remove a collectable entity from the collection.
      * @param entity
      */
