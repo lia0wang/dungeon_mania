@@ -25,7 +25,7 @@ public class Spider extends MovingEntity {
     }
 
     /**
-     * Gets the original spawn point of the spider entity
+     * Gets the movement behaviour of the spider entity
      * @return movement 
      */
     public MovementBehaviour getMovement() {
@@ -33,7 +33,7 @@ public class Spider extends MovingEntity {
     }  
 
     /**
-     * Gets the original spawn point of the spider entity
+     * Gets the current tick of the spider entity
      * @return spawnPoint
      */
     public Integer getCurrentTick() {

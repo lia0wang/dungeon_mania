@@ -4,16 +4,15 @@ import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.*;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
-
+import dungeonmania.util.Position;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.battles.Battle;
 import dungeonmania.entities.collectable.*;
-import dungeonmania.entities.moving.Inventory;
+import dungeonmania.entities.moving.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DungeonManiaController {
@@ -112,7 +111,30 @@ public class DungeonManiaController {
      * /game/tick/movement
      */
     public DungeonResponse tick(Direction movementDirection) {
-        return null;
+        Player player = dungeon.getPlayer();
+        Position newPos = player.getPosition().translateBy(movementDirection);
+
+        ArrayList<Entity> entitiesInPos = dungeon.getAllEntitiesinPosition(newPos.getX(), newPos.getY());
+        boolean playerCanMove = true;
+        for (Entity e : entitiesInPos) {
+            if (e.getCollision()) {
+                playerCanMove = false;
+                break;
+            }
+        }
+
+        if (playerCanMove) {
+            player.move(movementDirection);
+
+            ArrayList<Entity> enemiesInPos = dungeon.getAllEnemiesinPosition(newPos.getX(), newPos.getY());
+            for (Entity e : enemiesInPos) {
+                //do battle
+            }
+        }
+
+        // move everything, not including player
+
+        return getDungeonResponseModel();
     }
 
     /**

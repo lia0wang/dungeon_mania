@@ -10,7 +10,7 @@ import dungeonmania.entities.collectable.Treasure;
 import dungeonmania.entities.moving.Player;
 import dungeonmania.entities.moving.Spider;
 import dungeonmania.entities.staticEntity.*;
-import dungeonmania.entities.battles.*;;
+import dungeonmania.entities.battles.*;
 
 public class Dungeon {
     private JSONObject configs;
@@ -89,6 +89,18 @@ public class Dungeon {
      */
     public ArrayList<Entity> getAllEntitiesinPosition(int x, int y) {
         return entities.stream().filter(entity -> (entity.getPositionX() == x && entity.getPositionY() == y))
+        .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    /**
+     * Get all enemies that are in (x,y) on the map
+     * 
+     * @param x
+     * @param y
+     * @return
+     */
+    public ArrayList<Entity> getAllEnemiesinPosition(int x, int y) {
+        return enemies.stream().filter(entity -> (entity.getPositionX() == x && entity.getPositionY() == y))
         .collect(Collectors.toCollection(ArrayList::new));
     }
 
@@ -175,6 +187,19 @@ public class Dungeon {
         return name;
     }
 
+    /**
+     * checks if the player has enteres a battle, either from the player moving or enemy moving.
+     *
+     * @return name
+     */
+    public void doBattles() {
+        ArrayList<Entity> enemiesInPos = getAllEnemiesinPosition(player.getPositionX(), player.getPositionY());
+            for (Entity e : enemiesInPos) {
+                battles.add(new Battle(e, this, configs));
+            }
+
+    }
+    
     /**
      * Populates the dungeon class with entities and stores the goals specified by the map.
      *
