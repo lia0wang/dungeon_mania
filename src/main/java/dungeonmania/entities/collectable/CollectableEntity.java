@@ -7,7 +7,7 @@ import dungeonmania.entities.moving.Player;
 import dungeonmania.response.models.ItemResponse;
 
 /**
- * class for collectable entities.
+ * abstract class for collectable entities.
  * 
  * @author Wang Liao, <add_your_name>
  * @version 1.0
@@ -15,7 +15,7 @@ import dungeonmania.response.models.ItemResponse;
  * @attributes - durability (int) - durability of the entity
  *
  */
-public class CollectableEntity extends Entity {
+public abstract class CollectableEntity extends Entity {
     private int durability;
     
     /**

@@ -14,7 +14,11 @@ public class Player extends MovingEntity {
         this.playerState = new DefaultState();
         this.movement = new PlayerMovement();
     }
-
+    
+    public Player(int x, int y) {
+        this(x, y, "player", null);
+    }
+    
     public MovementBehaviour getMovement() {
         return movement;
     }    

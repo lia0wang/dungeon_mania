@@ -11,9 +11,7 @@ import dungeonmania.entities.battles.Battle;
 import dungeonmania.entities.collectable.*;
 import dungeonmania.entities.moving.Inventory;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DungeonManiaController {
@@ -81,7 +79,7 @@ public class DungeonManiaController {
 
         Inventory currInventory = dungeon.getPlayer().getInventory();
         List<ItemResponse> inventory = new ArrayList<>();
-        for (CollectableEntity c : currInventory.getCollection()) {
+        for (CollectableEntity c : currInventory.getCollections()) {
             inventory.add(c.getItemResponse());
         }
 
@@ -119,7 +117,17 @@ public class DungeonManiaController {
      * /game/build
      */
     public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
-        return null;
+        if (!buildable.equals("bow") && !buildable.equals("shield")) {
+            throw new IllegalArgumentException();
+        }
+        Inventory inventory = dungeon.getPlayer().getInventory();
+        if (inventory.hasEnoughMaterialsToCraft(buildable)) {
+            throw new InvalidActionException("You don't have enough materials to craft " + buildable + "!");
+        }
+        
+        inventory.build(buildable);
+
+        return getDungeonResponseModel();
     }
 
     /**

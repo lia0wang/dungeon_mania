@@ -4,10 +4,9 @@ import java.util.List;
 import java.util.ArrayList;
 
 import dungeonmania.response.models.*;
-import dungeonmania.entities.moving.*;
 
 public class Battle {
-    private MovingEntity enemy;
+    private String enemy;
     private double initialPlayerHealth;
     private double initialEnemyHealth;
     private List<Round> rounds = new ArrayList<Round>();
@@ -19,7 +18,7 @@ public class Battle {
      * @param initialPlayerHealth
      * @param initialEnemyHealth
      */
-    public Battle(MovingEntity enemy, double initialPlayerHealth, double initialEnemyHealth) {
+    public Battle(String enemy, double initialPlayerHealth, double initialEnemyHealth) {
         this.enemy = enemy;
         this.initialPlayerHealth = initialPlayerHealth;
         this.initialEnemyHealth = initialEnemyHealth;
@@ -44,6 +43,6 @@ public class Battle {
         for (Round r : rounds) {
             roundResponses.add(r.getRoundResponse());
         }
-        return new BattleResponse(enemy.getType(), roundResponses, initialPlayerHealth, initialEnemyHealth);
+        return new BattleResponse(enemy, roundResponses, initialPlayerHealth, initialEnemyHealth);
     }
 }

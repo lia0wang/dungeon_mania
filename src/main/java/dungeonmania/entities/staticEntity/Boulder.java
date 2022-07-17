@@ -1,7 +1,6 @@
 package dungeonmania.entities.staticEntity;
 
 import dungeonmania.entities.Entity;
-import dungeonmania.util.Position;
 
 public class Boulder extends Entity{
     public Boulder(int x, int y, String type) {
