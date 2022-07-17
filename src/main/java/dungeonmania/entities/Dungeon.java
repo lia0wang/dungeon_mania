@@ -15,8 +15,7 @@ public class Dungeon {
     private Player player;
     private ArrayList<Entity> entities;
     private ArrayList<Entity> enemies;
-    private ArrayList<String> goals;
-    private String goalSetting = "AND";
+    private String goals = "";
     private String Id;
     private static Integer nextDungeonId = 0;
     
@@ -128,24 +127,12 @@ public class Dungeon {
     }
 
     /**
-     * Get an array of all goals.
+     * Get a string of all goals.
      *
      * @return goals
      */
-    public ArrayList<String> getGoals() {
+    public String getGoals() {
         return goals;
-    }
-
-    /**
-     * Remove a goal.
-     *
-     * @param goal
-     */
-    public void removeGoal(String goal) {
-        goals.remove(goal);
-        if (goals.size() == 0) {
-            //make the user win the game
-        }
     }
 
     /**
@@ -196,22 +183,44 @@ public class Dungeon {
         }
 
         JSONObject allGoals = configuration.getJSONObject("goal-condition");
-        if (allGoals.has("subgoals")) {
-            this.goalSetting = allGoals.getString("goal");
-            JSONArray subGoals = configuration.getJSONArray("subgoals");
-
-            for (Object e : subGoals) {
-                JSONObject currGoal = (JSONObject) e;
-                goals.add(currGoal.getString("goal"));
-            }
-
-        } else {
-            goals.add(allGoals.getString("goal"));
-        }
+        doGoaltoString(goals, allGoals);
     }
     
     /**
+     * Converts the map goals into a string, with a recursive method.
+     * 
+     * @param currGoals, remainingGoals
+     * @return string
+     */
+    public String doGoaltoString(String currGoals, JSONObject remainingGoals) {
+        if (remainingGoals.has("subgoals")) {
+            String goalSetting = remainingGoals.getString("goal");
+            JSONObject goal1 = remainingGoals.getJSONArray("subgoals").getJSONObject(0);
+            JSONObject goal2 = remainingGoals.getJSONArray("subgoals").getJSONObject(1);
+            
+            currGoals += ":" + goal1.getString("goal") + " " + goalSetting + " ";
+
+            if (goal2.has("subgoals")) {
+                currGoals += "(";
+                doGoaltoString(currGoals, goal2);
+                currGoals += ")";
+            } else {
+                currGoals += goal2;
+            }
+        } else {
+            String goal1 = remainingGoals.getString("goal");
+            
+            currGoals += ":" + goal1;
+        }
+
+        return currGoals;
+    }
+
+    /**
      * Checks if a move can be made
+     * 
+     * @param entity
+     * @return boolean
      */
     public boolean checkMove(Entity entity) {
         if (this.entities.isEmpty()) {
