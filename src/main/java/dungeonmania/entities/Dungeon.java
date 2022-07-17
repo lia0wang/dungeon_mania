@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import dungeonmania.entities.collectable.Treasure;
 import dungeonmania.entities.moving.Player;
+import dungeonmania.entities.moving.Spider;
 import dungeonmania.entities.staticEntity.*;
 
 public class Dungeon {
@@ -151,6 +152,7 @@ public class Dungeon {
 
             switch (type) {
                 case "player":
+                    entities.add(new Player(x, y, type, this));
                 case "wall":
                     entities.add(new Wall(x, y, type));
                 case "exit":
@@ -168,7 +170,7 @@ public class Dungeon {
                 case "zombie_toast_spawner":
                     entities.add(new ZombieToastSpawner(x, y, type)); 
                 case "spider":
-
+                    entities.add(new Spider(x, y, type, this));
                 case "zombie_toast":
                 case "mercenary":
                 case "treasure":
