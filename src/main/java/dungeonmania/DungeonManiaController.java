@@ -103,7 +103,8 @@ public class DungeonManiaController {
      * /game/tick/item
      */
     public DungeonResponse tick(String itemUsedId) throws IllegalArgumentException, InvalidActionException {
-        return null;
+        // TODO: player uses item for each tick
+        return getDungeonResponseModel();
     }
 
     /**
