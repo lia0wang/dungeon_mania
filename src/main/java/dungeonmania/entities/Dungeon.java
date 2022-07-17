@@ -291,4 +291,11 @@ public class Dungeon {
         }
         return true;
     }
+    
+    /**
+     * Get an entity by its ID.
+     */
+    public Entity getEntityById(String id) {
+        return entities.stream().filter(entity -> entity.getId().equals(id)).findFirst().orElse(null);
+    }
 }
