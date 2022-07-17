@@ -13,8 +13,8 @@ import dungeonmania.entities.staticEntity.*;
 public class Dungeon {
     private JSONObject configs;
     private Player player;
-    private ArrayList<Entity> entities;
-    private ArrayList<Entity> enemies;
+    private ArrayList<Entity> entities = new ArrayList<>();
+    private ArrayList<Entity> enemies = new ArrayList<>();
     private String goals = "";
     private String Id;
     private static Integer nextDungeonId = 0;
@@ -153,20 +153,27 @@ public class Dungeon {
                 case "player":
                 case "wall":
                     entities.add(new Wall(x, y, type));
+                    continue;
                 case "exit":
                     entities.add(new Exit(x, y, type));
+                    continue;
                 case "boulder":
                     entities.add(new Boulder(x, y, type));
+                    continue;
                 case "switch":
                     entities.add(new FloorSwitch(x, y, type));
+                    continue;
                 case "door":
-                    String key = currEntity.getString("key");
+                    Integer key = currEntity.getInt("key");
                     entities.add(new Door(x, y, type, key));
+                    continue;
                 case "portal":
                     String colour = currEntity.getString("colour");
-                    entities.add(new Door(x, y, type, colour));
+                    entities.add(new Portal(x, y, type, colour));
+                    continue;
                 case "zombie_toast_spawner":
-                    entities.add(new ZombieToastSpawner(x, y, type)); 
+                    entities.add(new ZombieToastSpawner(x, y, type));
+                    continue;
                 case "spider":
 
                 case "zombie_toast":
@@ -183,7 +190,7 @@ public class Dungeon {
         }
 
         JSONObject allGoals = configuration.getJSONObject("goal-condition");
-        doGoaltoString(goals, allGoals);
+        goals = doGoaltoString(goals, allGoals);
     }
     
     /**
@@ -198,14 +205,21 @@ public class Dungeon {
             JSONObject goal1 = remainingGoals.getJSONArray("subgoals").getJSONObject(0);
             JSONObject goal2 = remainingGoals.getJSONArray("subgoals").getJSONObject(1);
             
-            currGoals += ":" + goal1.getString("goal") + " " + goalSetting + " ";
+            if (goal1.has("subgoals")) {
+                currGoals += "(";
+                currGoals = doGoaltoString(currGoals, goal1);
+                currGoals += ")";
+            } else {
+                currGoals += ":" + goal1.getString("goal");
+            }
+            currGoals += " " + goalSetting + " ";
 
             if (goal2.has("subgoals")) {
                 currGoals += "(";
-                doGoaltoString(currGoals, goal2);
+                currGoals = doGoaltoString(currGoals, goal2);
                 currGoals += ")";
             } else {
-                currGoals += goal2;
+                currGoals += ":" + goal2.getString("goal");
             }
         } else {
             String goal1 = remainingGoals.getString("goal");
