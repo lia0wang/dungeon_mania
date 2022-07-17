@@ -1,7 +1,6 @@
 package dungeonmania.entities.collectable;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 
