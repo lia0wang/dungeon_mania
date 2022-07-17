@@ -119,6 +119,15 @@ public class Inventory {
     }
     
     /**
+     * Get the whole inventory.
+     *
+     * @return the entire inventory
+     */
+    public List<CollectableEntity> getCollection() {
+        return this.collections;
+    }
+
+    /**
      * Find a collectable entity in the collection by id.
      * @param id
      *
