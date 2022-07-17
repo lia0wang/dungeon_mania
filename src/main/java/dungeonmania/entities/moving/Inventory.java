@@ -123,7 +123,7 @@ public class Inventory {
      *
      * @return the entire inventory
      */
-    public List<CollectableEntity> getCollection() {
+    public List<CollectableEntity> getCollections() {
         return this.collections;
     }
 

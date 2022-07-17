@@ -79,7 +79,7 @@ public class DungeonManiaController {
 
         Inventory currInventory = dungeon.getPlayer().getInventory();
         List<ItemResponse> inventory = new ArrayList<>();
-        for (CollectableEntity c : currInventory.getCollection()) {
+        for (CollectableEntity c : currInventory.getCollections()) {
             inventory.add(c.getItemResponse());
         }
 
@@ -126,7 +126,8 @@ public class DungeonManiaController {
         }
         
         inventory.build(buildable);
-        return null;
+
+        return getDungeonResponseModel();
     }
 
     /**
