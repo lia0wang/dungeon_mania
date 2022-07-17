@@ -10,14 +10,17 @@ import dungeonmania.entities.collectable.Treasure;
 import dungeonmania.entities.moving.Player;
 import dungeonmania.entities.moving.Spider;
 import dungeonmania.entities.staticEntity.*;
+import dungeonmania.entities.battles.*;;
 
 public class Dungeon {
     private JSONObject configs;
     private Player player;
     private ArrayList<Entity> entities = new ArrayList<>();
     private ArrayList<Entity> enemies = new ArrayList<>();
+    private ArrayList<Battle> battles = new ArrayList<>();
     private String goals = "";
     private String Id;
+    private String name;
     private static Integer nextDungeonId = 0;
     
     /**
@@ -69,6 +72,15 @@ public class Dungeon {
     }
 
     /**
+     * Get an array of all battles that have occurred on the map.
+     *
+     * @return battles
+     */
+    public ArrayList<Battle> getBattles() {
+        return battles;
+    }
+
+    /**
      * Get all entities that are in (x,y) on the map
      * 
      * @param x
@@ -96,6 +108,15 @@ public class Dungeon {
      */
     public ArrayList<Entity> getEnemies() {
         return enemies;
+    }
+
+    /**
+     * Add a battle to the dungeon.
+     *
+     * @param newBattle
+     */
+    public void addBattle(Battle newBattle) {
+        battles.add(newBattle);
     }
 
     /**
@@ -137,6 +158,24 @@ public class Dungeon {
     }
 
     /**
+     * Set the name of the dungeon map.
+     *
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Get the name of the dungeon map.
+     *
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
      * Populates the dungeon class with entities and stores the goals specified by the map.
      *
      * @param configuration
@@ -152,7 +191,9 @@ public class Dungeon {
 
             switch (type) {
                 case "player":
-                    entities.add(new Player(x, y, type, this));
+                    Player newPlayer = new Player(x, y, type, this);
+                    this.player = newPlayer;
+                    entities.add(newPlayer);
                 case "wall":
                     entities.add(new Wall(x, y, type));
                     continue;

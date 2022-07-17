@@ -7,6 +7,8 @@ import dungeonmania.util.FileLoader;
 
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.battles.Battle;
+import dungeonmania.entities.collectable.*;
 import dungeonmania.entities.moving.Inventory;
 
 import java.util.ArrayList;
@@ -52,6 +54,7 @@ public class DungeonManiaController {
         }
         
         this.dungeon = new Dungeon(dungeonMap, configs);
+        this.dungeon.setName(dungeonName);
 
         List<EntityResponse> entities = new ArrayList<>();
         for (Entity e : dungeon.getEntities()) {
@@ -69,7 +72,31 @@ public class DungeonManiaController {
      * /game/dungeonResponseModel
      */
     public DungeonResponse getDungeonResponseModel() {
-        return null;
+        List<EntityResponse> entities = new ArrayList<>();
+        for (Entity e : dungeon.getEntities()) {
+            entities.add(e.getEntityResponse());
+        }
+
+        Inventory currInventory = dungeon.getPlayer().getInventory();
+        List<ItemResponse> inventory = new ArrayList<>();
+        for (CollectableEntity c : currInventory.getCollection()) {
+            inventory.add(c.getItemResponse());
+        }
+
+        List<BattleResponse> battles = new ArrayList<>();
+        for (Battle b : dungeon.getBattles()) {
+            battles.add(b.getBattleResponse());
+        }
+
+        List<String> buildables = new ArrayList<>();
+        if (currInventory.hasEnoughMaterialsToCraft("bow")) {
+            buildables.add("bow");
+        }
+        if (currInventory.hasEnoughMaterialsToCraft("shield")) {
+            buildables.add("shield");
+        }
+
+        return new DungeonResponse(dungeon.getId(), dungeon.getName(), entities, inventory, battles, buildables, dungeon.getGoals());
     }
 
     /**
