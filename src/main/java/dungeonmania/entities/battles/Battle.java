@@ -13,7 +13,7 @@ import dungeonmania.entities.*;
 public class Battle {
     private Entity enemy;
     private double initialPlayerHealth;
-    private double initialEnemyHealth;
+    private double initialEnemyHealth = 0.0;
     private double playerDamage;
     private double enemyDamage;
     private List<Round> rounds = new ArrayList<Round>();
@@ -66,6 +66,6 @@ public class Battle {
         for (Round r : rounds) {
             roundResponses.add(r.getRoundResponse());
         }
-        return new BattleResponse(enemy.getType(), roundResponses, initialPlayerHealth, initialEnemyHealth);
+        return new BattleResponse(enemy, roundResponses, initialPlayerHealth, initialEnemyHealth);
     }
 }
