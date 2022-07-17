@@ -7,6 +7,7 @@ import dungeonmania.util.FileLoader;
 
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.moving.MovingEntity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -84,7 +85,13 @@ public class DungeonManiaController {
      * /game/tick/movement
      */
     public DungeonResponse tick(Direction movementDirection) {
+
+        List<EntityResponse> entities = new ArrayList<>();
+        for (MovingEntity e : dungeon.getAllMovingEntities()) {
+            e.move(movementDirection);
+        }
         return null;
+        //return new DungeonResponse(dungeon.getId(), dungeon.getName(), entities, inventory, battles, buildables, dungeon.getGoals());
     }
 
     /**
