@@ -10,6 +10,7 @@ import dungeonmania.entities.collectable.Treasure;
 import dungeonmania.entities.moving.Player;
 import dungeonmania.entities.moving.Spider;
 import dungeonmania.entities.staticEntity.*;
+import dungeonmania.util.Position;
 
 public class Dungeon {
     private JSONObject configs;
@@ -235,5 +236,21 @@ public class Dungeon {
             }
         }
         return true;
+    }
+
+    /**
+     * Checks if boulder is in a specific position
+     */
+    public boolean boulderInPosition(Position position) {
+        for (Entity e : entities) {
+            if (e instanceof Boulder) {
+                Position boulderPos = e.getPosition();
+                if (boulderPos.equals(position)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
