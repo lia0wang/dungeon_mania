@@ -35,7 +35,7 @@ public class PlayerMovementTests {
     @DisplayName("Test the player can move right w/o obstacles")
     void testPlayerMovementRight() {
         DungeonManiaController dmc = new DungeonManiaController();
-        DungeonResponse initDungonRes = dmc.newGame("d_movementTest_testMovementNoWalls", "c");
+        DungeonResponse initDungonRes = dmc.newGame("d_movementTest_testMovementNoWalls", "c_movementTest_testMovementNoWalls");
         EntityResponse initPlayer = getPlayer(initDungonRes).get();
 
         // create the expected result

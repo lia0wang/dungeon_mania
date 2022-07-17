@@ -110,7 +110,8 @@ public class DungeonManiaController {
      * /game/tick/movement
      */
     public DungeonResponse tick(Direction movementDirection) {
-        return null;
+        dungeon.getPlayer().move(movementDirection);
+        return getDungeonResponseModel();
     }
 
     /**
