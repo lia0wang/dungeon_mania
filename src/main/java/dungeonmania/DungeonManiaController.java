@@ -112,6 +112,7 @@ public class DungeonManiaController {
      */
     public DungeonResponse tick(Direction movementDirection) {
         dungeon.getPlayer().move(movementDirection);
+        dungeon.getAllMovingEntitiesButPlayer().forEach(e -> e.move(movementDirection));
         return getDungeonResponseModel();
     }
 
