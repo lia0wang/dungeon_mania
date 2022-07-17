@@ -15,7 +15,7 @@ public class Zombie extends MovingEntity {
         return movement;
     }
     
-    public void move(Direction direction, MovingEntity entity) {
+    public void move(Direction direction) {
         movement.move(direction, this);
     }
 }
