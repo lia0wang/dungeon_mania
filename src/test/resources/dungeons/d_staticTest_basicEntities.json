@@ -1,0 +1,61 @@
+{
+    "entities": [
+        {
+            "type" : "wall",
+            "x" : 8,
+            "y" : 1
+        }, {
+            "type" : "boulder",
+            "x" : 2,
+            "y" : 1
+        }, {
+            "type" : "switch",
+            "x" : 3,
+            "y" : 1
+        }, {
+            "type" : "exit",
+            "x" : 3,
+            "y" : 2
+        }, {
+            "type" : "door",
+            "x" : 3,
+            "y" : 7,
+            "key" : 1
+        }, {
+            "type" : "portal",
+            "x" : 3,
+            "y" : 6,
+            "colour" : "purple"
+        }, {
+            "type" : "zombie_toast_spawner",
+            "x" : 3,
+            "y" : 9
+        }
+    ],
+    "goal-condition": {
+        "goal": "AND",
+        "subgoals": [
+            {
+                "goal": "AND",
+                "subgoals": [
+                    {
+                        "goal": "exit"
+                    },
+                    {
+                        "goal": "treasure"
+                    }
+                ]
+            },
+            {
+                "goal": "AND",
+                "subgoals": [
+                    {
+                        "goal": "boulders"
+                    },
+                    {
+                        "goal": "enemies"
+                    }
+                ]
+            }]
+    }
+}

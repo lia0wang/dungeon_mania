@@ -1,11 +1,12 @@
 package dungeonmania;
 
 import dungeonmania.exceptions.InvalidActionException;
-import dungeonmania.response.models.DungeonResponse;
+import dungeonmania.response.models.*;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 
 import dungeonmania.entities.Dungeon;
+import dungeonmania.entities.Entity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,9 +54,16 @@ public class DungeonManiaController {
         
         this.dungeon = new Dungeon(dungeonMap, configs);
 
-        //make dungeonResponse
+        List<EntityResponse> entities = new ArrayList<>();
+        for (Entity e : dungeon.getEntities()) {
+            entities.add(e.getEntityResponse());
+        }
 
-        return null;
+        List<ItemResponse> inventory = new ArrayList<>();
+        List<BattleResponse> battles = new ArrayList<>();
+        List<String> buildables = new ArrayList<>();
+
+        return new DungeonResponse(dungeon.getId(), dungeonName, entities, inventory, battles, buildables, dungeon.getGoals());
     }
 
     /**
