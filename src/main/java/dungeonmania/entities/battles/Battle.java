@@ -66,6 +66,6 @@ public class Battle {
         for (Round r : rounds) {
             roundResponses.add(r.getRoundResponse());
         }
-        return new BattleResponse(enemy, roundResponses, initialPlayerHealth, initialEnemyHealth);
+        return new BattleResponse(enemy.getType(), roundResponses, initialPlayerHealth, initialEnemyHealth);
     }
 }
