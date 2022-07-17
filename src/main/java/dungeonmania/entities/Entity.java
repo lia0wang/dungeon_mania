@@ -108,6 +108,22 @@ public class Entity {
     }
     
     /**
+     * Return the x-cooridinate of an entity
+     * @return
+     */
+    public int getPositionX() {
+        return this.position.getX();
+    }
+
+    /**
+     * Return the y-cooridinate of an entity
+     * @return
+     */
+    public int getPositionY() {
+        return this.position.getY();
+    }
+    
+    /**
      * Get the isInteractable of the entity.
      *
      * @return isInteractable
