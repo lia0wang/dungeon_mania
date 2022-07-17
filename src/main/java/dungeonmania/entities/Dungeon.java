@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import dungeonmania.entities.collectable.Treasure;
+import dungeonmania.entities.moving.MovingEntity;
 import dungeonmania.entities.moving.Player;
 import dungeonmania.entities.moving.Spider;
 import dungeonmania.entities.staticEntity.*;
@@ -118,6 +119,14 @@ public class Dungeon {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
     
+    /**
+     * return all moving entities on the map
+     * @return
+     */
+    public ArrayList<MovingEntity> getAllMovingEntities() {
+        return entities.stream().filter(entity -> entity instanceof MovingEntity).map(MovingEntity.class::cast)
+        .collect(Collectors.toCollection(ArrayList::new));
+    }
     /**
      * Add an enemy to the dungeon.
      *
