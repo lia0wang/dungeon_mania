@@ -31,12 +31,10 @@ public class Battle {
         this.enemy = enemy;
         this.initialPlayerHealth = configs.getDouble("player_health");
         switch (enemy.getType()) {
-            case "spider":
-                this.initialEnemyHealth = configs.getDouble("spider_health");
             case "zombie_toast":
                 this.initialEnemyHealth = configs.getDouble("zombie_health");
-            case "mercenary":
-                this.initialEnemyHealth = configs.getDouble("mercenary_health");
+            default:
+                this.initialEnemyHealth = configs.getDouble(enemy.getType() + "_health");
         }
         
         this.dungeon = dungeon;
