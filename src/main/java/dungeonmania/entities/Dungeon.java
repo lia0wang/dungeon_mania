@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import dungeonmania.entities.collectable.Treasure;
+import dungeonmania.entities.goal.ComplexGoalLogic;
 import dungeonmania.entities.moving.MovingEntity;
 import dungeonmania.entities.moving.Player;
 import dungeonmania.entities.moving.Spider;
@@ -20,6 +21,7 @@ public class Dungeon {
     private ArrayList<Entity> enemies = new ArrayList<>();
     private ArrayList<Battle> battles = new ArrayList<>();
     private String goals = "";
+    private ComplexGoalLogic goal;
     private String Id;
     private String name;
     private static Integer nextDungeonId = 0;
@@ -34,6 +36,12 @@ public class Dungeon {
         this.configs = new JSONObject(configs);
         this.populate(new JSONObject(dungeonMap));
         this.Id = "dungeon_" + Integer.toString(nextDungeonId);
+        
+        // store and set goals fron JSONObject
+        //StoreDungeonGoal allgoal = new StoreDungeonGoal(this.dunegon, goal);
+        //allgoal.addGoals(new JSONObject(dungeonMap).getJSONObject("goal-condition"), goal);
+        //setGoal(goal);
+
         nextDungeonId++;
     }
 
@@ -237,6 +245,7 @@ public class Dungeon {
         goals = doGoaltoString(goals, allGoals);
     }
     
+    
     /**
      * Converts the map goals into a string, with a recursive method.
      * 
@@ -274,6 +283,36 @@ public class Dungeon {
         return currGoals;
     }
 
+    /*
+    public ComplexGoalLogic getGoal() {
+        return goal;
+    }
+
+    public void setGoal(ComplexGoalLogic goal) {
+        this.goal = goal;
+    }
+    */
+
+    public void updateGoal() {
+        String curString = getGoals();
+        Player player = getPlayer();
+        ArrayList<Entity> entitiesAtPlayer = getAllEntitiesinPosition(player.getPositionX(), player.getPositionY());
+			
+        if (entitiesAtPlayer.stream().anyMatch(entity -> entity instanceof Exit)) {
+            curString = curString.replace(":exit", "");
+        } else if (getEnemies().size() == 0) {
+            curString = curString.replace(":enemies", "");
+        } else if (getFloorSwitches().stream().allMatch(s->((FloorSwitch) s).isTriggered())) {
+            curString = curString.replace(":boulders", "");
+        } else if (getTreasures().size() == 0) {
+            curString = curString.replace(":treasure", "");
+        }
+        goals = curString;
+    }
+
+    public boolean goalReached() {
+        return goal.goalAchieved();
+    }
     /**
      * Checks if a move can be made
      * 
