@@ -9,6 +9,9 @@ import org.json.JSONObject;
 import dungeonmania.response.models.*;
 import dungeonmania.entities.moving.*;
 import dungeonmania.entities.*;
+import dungeonmania.entities.buildable.Shield;
+import dungeonmania.entities.collectable.CollectableEntity;
+import dungeonmania.entities.collectable.Sword;
 
 public class Battle {
     private Entity enemy;
@@ -17,28 +20,59 @@ public class Battle {
     private double playerDamage;
     private double enemyDamage;
     private List<Round> rounds = new ArrayList<Round>();
-    private Dungeon dungeon;
+    private ArrayList<CollectableEntity> weaponsUsed;
+    private Player player;
     private JSONObject configs;
 
     /**
      * Constructor for Battles
      *
      * @param enemy
-     * @param dungeon
+     * @param player
      * @param configs
      */
-    public Battle(Entity enemy, Dungeon dungeon, JSONObject configs) {
+    public Battle(Entity enemy, Player player, JSONObject configs) {
         this.enemy = enemy;
-        this.initialPlayerHealth = configs.getDouble("player_health");
+        initialPlayerHealth = configs.getDouble("player_health");
+        playerDamage = configs.getDouble("player_attack");
         switch (enemy.getType()) {
             case "zombie_toast":
-                this.initialEnemyHealth = configs.getDouble("zombie_health");
+                initialEnemyHealth = configs.getDouble("zombie_health");
+                enemyDamage = configs.getDouble("zombie_attack");
             default:
-                this.initialEnemyHealth = configs.getDouble(enemy.getType() + "_health");
+                initialEnemyHealth = configs.getDouble(enemy.getType() + "_health");
+                enemyDamage = configs.getDouble(enemy.getType() + "_attack");
         }
         
-        this.dungeon = dungeon;
+        weaponsUsed = player.getInventory().getCurrentWeapons();
+        for (CollectableEntity e : weaponsUsed) {
+            switch (e.getType()) {
+                case "sword":
+                    playerDamage += configs.getDouble("sword_attack");
+                    Sword sword = (Sword) e;
+                    sword.usedInBattle(player);
+                case "midnight_armour":
+                    playerDamage += configs.getDouble("midnight_armour_attack");
+                    enemyDamage -= configs.getDouble("midnight_armour_defence");
+                case "bow":
+                    playerDamage = playerDamage * 2;
+                    // Bow bow = (Bow) e;
+                    // bow.usedInBattle(player);
+                case "shield":
+                    enemyDamage -= configs.getDouble("shield_defence");
+                    Shield shield = (Shield) e;
+                    shield.usedInBattle(player);
+                
+            }
+        }
+
+        if (enemyDamage < 0) {
+            enemyDamage = 0;
+        }
+
+        this.player = player;
         this.configs = configs;
+        resolveBattle();
     }
 
     /**
@@ -50,7 +84,7 @@ public class Battle {
         Double currEnemyHealth = initialEnemyHealth;
 
         while (currPlayerHealth > 0 && currEnemyHealth > 0) {
-            //rounds.add(new Round(deltaPlayerHealth, deltaEnemyHealth))
+            rounds.add(new Round(currPlayerHealth - (enemyDamage/10), currEnemyHealth - (playerDamage/5), weaponsUsed));
         }
     }
 

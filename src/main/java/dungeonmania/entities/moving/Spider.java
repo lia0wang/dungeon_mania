@@ -1,7 +1,6 @@
 package dungeonmania.entities.moving;
 
 import dungeonmania.entities.Dungeon;
-import dungeonmania.entities.Entity;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
@@ -40,7 +39,8 @@ public class Spider extends MovingEntity {
         return currentTick;
     }
     
-    public void move(Direction direction, Entity entity) {
+    @Override
+    public void move(Direction direction) {
         movement.move(direction, this);
         if (currentTick < 8) {
             currentTick++;

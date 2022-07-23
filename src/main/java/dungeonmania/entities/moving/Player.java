@@ -8,15 +8,11 @@ public class Player extends MovingEntity {
     private MovementBehaviour movement;
     private PlayerState playerState;
     
-    public Player(int x, int y, String type, Dungeon dungeon) {
+    public Player(int x, int y, Dungeon dungeon) {
         super(x, y, "player", dungeon);
         this.inventory = new Inventory();
         this.playerState = new DefaultState();
         this.movement = new PlayerMovement();
-    }
-    
-    public Player(int x, int y) {
-        this(x, y, "player", null);
     }
     
     public MovementBehaviour getMovement() {

@@ -34,7 +34,7 @@ public class KeyTest {
     @Test
     public void testKeyConsumedByPlayer() {
         Key key = new Key(10, 20, 3);
-        Player player = new Player(0, 0);
+        Player player = new Player(0, 0, null);
         ArrayList<Entity> entities = new ArrayList<Entity>();
         entities.add(key); // Simulate the key is added to the Dungeon
         

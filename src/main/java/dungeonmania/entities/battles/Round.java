@@ -17,18 +17,10 @@ public class Round {
      * @param deltaPlayerHealth
      * @param deltaEnemyHealth
      */
-    public Round(double deltaPlayerHealth, double deltaEnemyHealth) {
+    public Round(double deltaPlayerHealth, double deltaEnemyHealth, ArrayList<CollectableEntity> weaponsUsed) {
         this.deltaPlayerHealth = deltaPlayerHealth;
         this.deltaEnemyHealth = deltaEnemyHealth;
-    }
-
-    /**
-     * Add a weapon to the round
-     *
-     * @param weapon
-     */
-    public void addWeapon(CollectableEntity newWeapon) {
-        this.weaponryUsed.add(newWeapon);
+        weaponryUsed = weaponsUsed;
     }
 
     /**

@@ -38,7 +38,7 @@ public class SwordTest {
     @Test
     public void testSwordConsumedByPlayer() {
         Sword sword = new Sword();
-        Player player = new Player(0, 0);
+        Player player = new Player(0, 0, null);
         ArrayList<Entity> entities = new ArrayList<Entity>();
         entities.add(sword); // Simulate the sword is added to the Dungeon
     

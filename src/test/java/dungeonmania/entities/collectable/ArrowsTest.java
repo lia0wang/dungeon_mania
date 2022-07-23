@@ -32,7 +32,7 @@ public class ArrowsTest {
     @Test
     public void testArrowsConsumedByPlayer() {
         Arrows arrows = new Arrows(10, 20);
-        Player player = new Player(0, 0);
+        Player player = new Player(0, 0, null);
         ArrayList<Entity> entities = new ArrayList<Entity>();
         entities.add(arrows); // Simulate the arrow is added to the Dungeon
         

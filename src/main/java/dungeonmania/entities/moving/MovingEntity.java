@@ -1,8 +1,10 @@
 package dungeonmania.entities.moving;
+
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.Entity;
+import dungeonmania.util.Direction;
 
-public class MovingEntity extends Entity{
+public abstract class MovingEntity extends Entity{
     protected Dungeon dungeon;
     
     public MovingEntity(int x, int y, String type, Dungeon dungeon) {
@@ -12,4 +14,6 @@ public class MovingEntity extends Entity{
     public Dungeon getDungeon() {
         return dungeon;
     }
+    
+    public abstract void move(Direction direction);
 }

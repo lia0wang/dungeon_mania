@@ -103,7 +103,8 @@ public class DungeonManiaController {
      * /game/tick/item
      */
     public DungeonResponse tick(String itemUsedId) throws IllegalArgumentException, InvalidActionException {
-        return null;
+        // TODO: player uses item for each tick
+        return getDungeonResponseModel();
     }
 
     /**
@@ -123,16 +124,10 @@ public class DungeonManiaController {
         }
 
         if (playerCanMove) {
-            player.move(movementDirection);
-
-            ArrayList<Entity> enemiesInPos = dungeon.getAllEnemiesinPosition(newPos.getX(), newPos.getY());
-            for (Entity e : enemiesInPos) {
-                //do battle
-            }
+            player.move(movementDirection); 
         }
-
-        // move everything, not including player
-
+        dungeon.getAllMovingEntitiesButPlayer().forEach(e -> e.move(movementDirection));
+        dungeon.doBattles();
         return getDungeonResponseModel();
     }
 
@@ -157,6 +152,40 @@ public class DungeonManiaController {
      * /game/interact
      */
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
+        if (dungeon.getEntityById(entityId) == null) {
+            throw new IllegalArgumentException();
+        }
+        Entity entity = dungeon.getEntityById(entityId);
+        
+        if (entity.getType().equals("mercenary")) {
+            // TODO: bribe the mercenary
+        } else if (entity.getType().equals("zombie_toast_spawner")) {
+            // TODO: attack the zombie toast spawner
+        } else {
+            throw new InvalidActionException("You can't interact with " + entity.getType() + "!");
+        }
+        return getDungeonResponseModel();
+    }
+
+    /**
+     * /game/save
+     */
+    public DungeonResponse saveGame(String name) throws IllegalArgumentException {
         return null;
     }
+
+    /**
+     * /game/load
+     */
+    public DungeonResponse loadGame(String name) throws IllegalArgumentException {
+        return null;
+    }
+
+    /**
+     * /games/all
+     */
+    public List<String> allGames() {
+        return new ArrayList<>();
+    }
+
 }
