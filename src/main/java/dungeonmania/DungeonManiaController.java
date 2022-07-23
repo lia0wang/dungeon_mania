@@ -14,6 +14,8 @@ import dungeonmania.entities.moving.Inventory;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
+
 public class DungeonManiaController {
     private Dungeon dungeon;
 
@@ -55,6 +57,16 @@ public class DungeonManiaController {
         
         this.dungeon = new Dungeon(dungeonMap, configs);
         this.dungeon.setName(dungeonName);
+
+        // put all entities on the map, so that appears on the map
+        JSONObject map;
+        try {
+            map = new JSONObject(FileLoader.loadResourceFile("/dungeons/" + dungeonName + ".json"));
+        } catch (Exception e) {
+            throw new IllegalArgumentException();
+        }
+
+        this.dungeon.populate(map);
 
         List<EntityResponse> entities = new ArrayList<>();
         for (Entity e : dungeon.getEntities()) {
