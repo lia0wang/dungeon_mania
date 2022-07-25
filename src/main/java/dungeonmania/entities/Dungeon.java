@@ -2,12 +2,18 @@ package dungeonmania.entities;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import org.eclipse.jetty.server.CustomRequestLog;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import dungeonmania.entities.collectable.CollectableEntity;
+import dungeonmania.entities.collectable.Key;
 import dungeonmania.entities.collectable.Treasure;
+import dungeonmania.entities.goal.AndGoal;
 import dungeonmania.entities.goal.ComplexGoalLogic;
+import dungeonmania.entities.goal.StoreDungeonGoal;
 import dungeonmania.entities.moving.MovingEntity;
 import dungeonmania.entities.moving.Player;
 import dungeonmania.entities.moving.Spider;
@@ -22,7 +28,7 @@ public class Dungeon {
     private ArrayList<Entity> enemies = new ArrayList<>();
     private ArrayList<Battle> battles = new ArrayList<>();
     private String goals = "";
-    private ComplexGoalLogic goal;
+    private ComplexGoalLogic goalStructure;
     private String Id;
     private String name;
     private static Integer nextDungeonId = 0;
@@ -37,11 +43,12 @@ public class Dungeon {
         this.configs = new JSONObject(configs);
         this.populate(new JSONObject(dungeonMap));
         this.Id = "dungeon_" + Integer.toString(nextDungeonId);
-        
-        // store and set goals fron JSONObject
-        //StoreDungeonGoal allgoal = new StoreDungeonGoal(this.dunegon, goal);
-        //allgoal.addGoals(new JSONObject(dungeonMap).getJSONObject("goal-condition"), goal);
-        //setGoal(goal);
+        goalStructure = new AndGoal();
+
+        JSONObject goalExpression = new JSONObject(dungeonMap).getJSONObject("goal-condition");
+        StoreDungeonGoal g = new StoreDungeonGoal(this);
+        g.addGoals(goalExpression, this.goalStructure);
+        setGoal(goalStructure);
 
         nextDungeonId++;
     }
@@ -232,7 +239,9 @@ public class Dungeon {
                 case "zombie_toast":
                 case "mercenary":
                 case "treasure":
+                    entities.add(new Treasure(x, y, type));
                 case "key":
+                    //entities.add(new Key(x, y, currEntity.getInt("key")));
                 case "invincibility_potion":
                 case "invisibility_potion":
                 case "wood":
@@ -242,8 +251,11 @@ public class Dungeon {
             }
         }
 
-        JSONObject allGoals = configuration.getJSONObject("goal-condition");
-        goals = doGoaltoString(goals, allGoals);
+        JSONObject goalExpression = configuration.getJSONObject("goal-condition");
+        
+        // create the goalStructure
+        
+        goals = doGoaltoString(goals, goalExpression);
     }
     
     
@@ -284,36 +296,47 @@ public class Dungeon {
         return currGoals;
     }
 
-    /*
+    
     public ComplexGoalLogic getGoal() {
-        return goal;
+        return goalStructure;
     }
 
-    public void setGoal(ComplexGoalLogic goal) {
-        this.goal = goal;
+    public void setGoal(ComplexGoalLogic goalStrucComplexGoalLogic) {
+        this.goalStructure = goalStrucComplexGoalLogic;
     }
-    */
+    
+    public void setGoalString(String curString) {
+        this.goals = curString;
+    }
 
+    /**
+     * update the goalString after a tick
+     */
     public void updateGoal() {
         String curString = getGoals();
-        Player player = getPlayer();
-        ArrayList<Entity> entitiesAtPlayer = getAllEntitiesinPosition(player.getPositionX(), player.getPositionY());
-			
-        if (entitiesAtPlayer.stream().anyMatch(entity -> entity instanceof Exit)) {
-            curString = curString.replace(":exit", "");
-        } else if (getEnemies().size() == 0) {
-            curString = curString.replace(":enemies", "");
-        } else if (getFloorSwitches().stream().allMatch(s->((FloorSwitch) s).isTriggered())) {
-            curString = curString.replace(":boulders", "");
-        } else if (getTreasures().size() == 0) {
-            curString = curString.replace(":treasure", "");
+        setGoalString(goalStructure.update(curString));
+    }
+    
+    /**
+     * pick up entities at a tick
+     * @param entity
+     */
+    public void pickUpItem() {
+        ArrayList<Entity> l = getAllEntitiesinPosition(this.player.getPositionX(), this.player.getPositionY());
+        for (Entity e : l) {
+            if (e instanceof CollectableEntity) {
+                ((CollectableEntity) e).collectedByPlayer(this.player, entities);
+            }
         }
-        goals = curString;
+        /*
+            .stream()
+            .filter(e -> e instanceof CollectableEntity)
+            .forEach((e) -> {
+                ((CollectableEntity) e).collectedByPlayer(this.player, entities);
+            });
+        */
     }
 
-    public boolean goalReached() {
-        return goal.goalAchieved();
-    }
     /**
      * Checks if a move can be made
      * 
