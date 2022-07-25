@@ -11,6 +11,7 @@ import dungeonmania.entities.moving.MovingEntity;
 import dungeonmania.entities.moving.Player;
 import dungeonmania.entities.moving.Spider;
 import dungeonmania.entities.staticEntity.*;
+import dungeonmania.util.Position;
 import dungeonmania.entities.battles.*;;
 
 public class Dungeon {
@@ -309,4 +310,7 @@ public class Dungeon {
         .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    public boolean boulderInPosition(Position position) {
+        return entities.stream().filter(e -> e instanceof Boulder).anyMatch(b -> b.getPosition().equals(position));
+    }
 }
