@@ -15,7 +15,7 @@ public class ExitGoal extends LeafGoal{
     @Override
     public boolean goalAchieved(String curString) {
         Player player = getDungeon().getPlayer();
-        ArrayList<Entity> entitiesAtPlayer = getDungeon().getAllEntitiesinPosition(player.getPositionX(), player.getPositionY());
+        ArrayList<Entity> entitiesAtPlayer = getDungeon().getAllEntitiesInPosition(player.getPositionX(), player.getPositionY());
 			
         if (entitiesAtPlayer.stream().anyMatch(entity -> entity instanceof Exit)) {
             return true;

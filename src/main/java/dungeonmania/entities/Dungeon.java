@@ -101,7 +101,7 @@ public class Dungeon {
      * @param y
      * @return
      */
-    public ArrayList<Entity> getAllEntitiesinPosition(int x, int y) {
+    public ArrayList<Entity> getAllEntitiesInPosition(int x, int y) {
         return entities.stream().filter(entity -> (entity.getPositionX() == x && entity.getPositionY() == y))
         .collect(Collectors.toCollection(ArrayList::new));
     }
@@ -208,6 +208,7 @@ public class Dungeon {
                     Player newPlayer = new Player(x, y, type, this);
                     this.player = newPlayer;
                     entities.add(newPlayer);
+                    continue;
                 case "wall":
                     entities.add(new Wall(x, y, type));
                     continue;
@@ -351,22 +352,25 @@ public class Dungeon {
      * @param entity
      */
     public void pickUpItem() {
-        ArrayList<Entity> l = getAllEntitiesinPosition(this.player.getPositionX(), this.player.getPositionY());
+        ArrayList<Entity> l = getAllEntitiesInPosition(this.player.getPositionX(), this.player.getPositionY());
         for (Entity e : l) {
             if (e instanceof CollectableEntity) {
                 ((CollectableEntity) e).collectedByPlayer(this.player, entities);
             }
             if (e instanceof Door){
-                openDoor((Door)e);
+                useKeyOpenDoor((Door)e);
             }
         }
     }
 
-    public void openDoor(Door door) {
-        int keyId = door.getKeyId();
-        this.player.getKeyInInventory(keyId).consumedByPlayer(this.player);
-        door.setDoorOpen();
+    public void useKeyOpenDoor(Door door) {
+        if (!door.isOpen()) {
+            int keyId = door.getKeyId();
+            this.player.getKeyInInventory(keyId).consumedByPlayer(this.player);
+            door.setDoorOpen();
+        }
     }
+
     /**
      * Checks if a move can be made
      * 
@@ -374,15 +378,22 @@ public class Dungeon {
      * @return boolean
      */
     public boolean checkMove(Entity entity) {
-        if (this.entities.isEmpty()) {
-            return true;
-        }
-
         for (Entity e : entities) {
+            if (e instanceof Door) {
+                int keyId = ((Door) e).getKeyId();
+                Key key = this.player.getKeyInInventory(keyId); 
+
+                // if the player has a key and the door(closed) is in the same position, move the player
+                if (e.isAtSamePosition(entity) && this.player.getInventory().contains(key)) {
+                    return true;
+                }
+            }
+
             if (e.isAtSamePosition(entity) && e.getCollision()) {
                 return false;
             }
         }
+
         return true;
     }
     
