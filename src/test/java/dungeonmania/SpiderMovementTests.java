@@ -6,14 +6,12 @@ import static dungeonmania.TestUtils.getEntities;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.response.models.DungeonResponse;
-import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
@@ -30,9 +28,8 @@ public class SpiderMovementTests {
         int y = pos.getY();
 
         res = dmc.tick(Direction.UP);
-        List<EntityResponse> spider = dmc.getDungeonResponseModel().getEntities().stream().filter(e -> e.getType().equalsIgnoreCase("spider")).collect(Collectors.toList());
 
-        assertEquals(new Position(x, y - 1), spider.get(0).getPosition());
+        assertEquals(new Position(x, y - 1), getEntities(res, "spider").get(0).getPosition());
     }
 
     @Test 
@@ -47,9 +44,8 @@ public class SpiderMovementTests {
         int y = pos.getY();
 
         res = dmc.tick(Direction.UP);
-        List<EntityResponse> spider = dmc.getDungeonResponseModel().getEntities().stream().filter(e -> e.getType().equalsIgnoreCase("spider")).collect(Collectors.toList());
 
-        assertEquals(new Position(x, y), spider.get(0).getPosition());
+        assertEquals(new Position(x, y), getEntities(res, "spider").get(0).getPosition());
         
     }
 
@@ -76,9 +72,7 @@ public class SpiderMovementTests {
         // Assert Circular Movement of Spider
         for (int i = 0; i < movementTrajectory.size(); ++i) {
             res = dmc.tick(Direction.UP);
-            List<EntityResponse> spider = dmc.getDungeonResponseModel().getEntities().stream().filter(e -> e.getType().equalsIgnoreCase("spider")).collect(Collectors.toList());
-    
-            assertEquals(movementTrajectory.get(i), spider.get(0).getPosition());
+            assertEquals(movementTrajectory.get(i), getEntities(res, "spider").get(0).getPosition());
         }
     }
 
@@ -105,9 +99,7 @@ public class SpiderMovementTests {
         // Assert Circular Movement of Spider
         for (int i = 0; i < movementTrajectory.size(); ++i) {
             res = dmc.tick(Direction.UP);
-            List<EntityResponse> spider = dmc.getDungeonResponseModel().getEntities().stream().filter(e -> e.getType().equalsIgnoreCase("spider")).collect(Collectors.toList());
-    
-            assertEquals(movementTrajectory.get(i), spider.get(0).getPosition());
+            assertEquals(movementTrajectory.get(i), getEntities(res, "spider").get(0).getPosition());
         }   
     }
 
@@ -128,14 +120,11 @@ public class SpiderMovementTests {
         Position newPos = new Position(x  , y - 1);
 
         // Assert that the spider is now between two boulders
-        List<EntityResponse> spider = dmc.getDungeonResponseModel().getEntities().stream().filter(e -> e.getType().equalsIgnoreCase("spider")).collect(Collectors.toList());
 
-        assertEquals(newPos, spider.get(0).getPosition());
+        assertEquals(newPos, getEntities(res, "spider").get(0).getPosition());
 
         // Assert that the spider remains still between two boulders
         res = dmc.tick(Direction.UP);
-        spider = dmc.getDungeonResponseModel().getEntities().stream().filter(e -> e.getType().equalsIgnoreCase("spider")).collect(Collectors.toList());
-
-        assertEquals(newPos, spider.get(0).getPosition());
+        assertEquals(newPos, getEntities(res, "spider").get(0).getPosition());
     }
 }
