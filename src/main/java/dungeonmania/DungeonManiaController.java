@@ -128,7 +128,7 @@ public class DungeonManiaController {
             throw new IllegalArgumentException();
         }
         Inventory inventory = dungeon.getPlayer().getInventory();
-        if (inventory.hasEnoughMaterialsToCraft(buildable)) {
+        if (!inventory.hasEnoughMaterialsToCraft(buildable)) {
             throw new InvalidActionException("You don't have enough materials to craft " + buildable + "!");
         }
         
