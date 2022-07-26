@@ -14,6 +14,7 @@ public abstract class ComplexGoalLogic implements Goal{
         this.subGoals.remove(goal);
     }
 
-    public abstract boolean goalAchieved();
+    public abstract boolean goalAchieved(String curString);
+    public abstract String update(String curString);
 
 }
