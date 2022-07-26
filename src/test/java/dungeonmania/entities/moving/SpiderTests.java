@@ -1,4 +1,4 @@
-package dungeonmania;
+package dungeonmania.entities.moving;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,12 +10,13 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.staticEntity.Boulder;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
-public class SpiderMovementTests {
+public class SpiderTests {
     @Test 
     @DisplayName("Test spider moves to position 1 on first tick")
     public void firstTickMovementNoBoulder() {
