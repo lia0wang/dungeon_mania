@@ -1,4 +1,4 @@
-package dungeonmania;
+package dungeonmania.entities.moving;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -7,12 +7,13 @@ import static dungeonmania.TestUtils.getPlayer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import dungeonmania.DungeonManiaController;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
-public class PlayerMovementTests {
+public class PlayerTests {
     @Test
     @DisplayName("Test the player can move up w/o obstacles")
     void testPlayerMovementUp() {

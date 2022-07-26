@@ -14,6 +14,7 @@ import dungeonmania.entities.goal.StoreDungeonGoal;
 import dungeonmania.entities.moving.MovingEntity;
 import dungeonmania.entities.moving.Player;
 import dungeonmania.entities.moving.Spider;
+import dungeonmania.entities.moving.ZombieToast;
 import dungeonmania.entities.staticEntity.*;
 import dungeonmania.util.Position;
 import dungeonmania.entities.battles.*;;
@@ -236,6 +237,8 @@ public class Dungeon {
                     entities.add(new Spider(x, y, type, this));
                     continue;
                 case "zombie_toast":
+                    entities.add(new ZombieToast(x, y, type, this));
+                    continue;
                 case "mercenary":
                 case "treasure":
                     entities.add(new Treasure(x, y, type));
