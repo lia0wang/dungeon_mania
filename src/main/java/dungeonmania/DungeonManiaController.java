@@ -97,6 +97,7 @@ public class DungeonManiaController {
             buildables.add("shield");
         }
 
+        
         return new DungeonResponse(dungeon.getId(), dungeon.getName(), entities, inventory, battles, buildables, dungeon.getGoals());
     }
 
@@ -114,6 +115,8 @@ public class DungeonManiaController {
     public DungeonResponse tick(Direction movementDirection) {
         dungeon.getPlayer().move(movementDirection);
         dungeon.getAllMovingEntitiesButPlayer().forEach(e -> e.move(movementDirection));
+        dungeon.pickUpItem();
+        dungeon.updateGoal();
         return getDungeonResponseModel();
     }
 
