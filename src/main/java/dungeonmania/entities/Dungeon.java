@@ -2,14 +2,10 @@ package dungeonmania.entities;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.eclipse.jetty.server.CustomRequestLog;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import dungeonmania.entities.collectable.CollectableEntity;
-import dungeonmania.entities.collectable.Key;
 import dungeonmania.entities.collectable.Treasure;
 import dungeonmania.entities.goal.AndGoal;
 import dungeonmania.entities.goal.ComplexGoalLogic;
@@ -314,9 +310,39 @@ public class Dungeon {
      */
     public void updateGoal() {
         String curString = getGoals();
-        setGoalString(goalStructure.update(curString));
+        
+        if (curString.contains(":enemies") && getEnemies().size() == 0) {
+            setGoalString(curString.replace(":enemies", ""));
+        } else if (curString.contains(":boulders") && getFloorSwitches().stream().allMatch(s->((FloorSwitch) s).isTriggered())) {
+            setGoalString(curString.replace(":boulders", ""));
+        } else if (curString.contains(":treasure") && getTreasures().size() == 0) {
+            setGoalString(curString.replace(":treasure", ""));
+        } 
+        
+        //Player player = getPlayer();
+        //ArrayList<Entity> entitiesAtPlayer = getAllEntitiesinPosition(player.getPositionX(), player.getPositionY());
+        if (playerReachExit()) {
+            setGoalString(curString.replace(":exit", ""));
+        } 
+
+        if (goalStructure.goalAchieved(curString)) {
+            setGoalString("");
+        }
+
     }
     
+    // helper function, may be deleted later
+    public Boolean playerReachExit() {
+        for (Entity e : getEntities()) {
+            if (e instanceof Exit) {
+                if (e.getPosition() == getPlayer().getPosition()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * pick up entities at a tick
      * @param entity
