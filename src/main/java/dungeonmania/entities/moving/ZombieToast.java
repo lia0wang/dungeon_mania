@@ -14,7 +14,7 @@ public class ZombieToast extends MovingEntity {
     public MovementBehaviour getMovement() {
         return movement;
     }
-    
+
     public void move(Direction direction) {
         movement.move(direction, this);
     }

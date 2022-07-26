@@ -32,7 +32,9 @@ public class ZombieMovement implements MovementBehaviour {
 
             if (!entity.getDungeon().checkMove(entity)) {
                 entity.setPosition(oldPosition);
+                continue;
             }
+            break;
         }
     }
 
