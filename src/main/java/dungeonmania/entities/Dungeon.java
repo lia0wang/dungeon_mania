@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import dungeonmania.entities.collectable.CollectableEntity;
+import dungeonmania.entities.collectable.Key;
 import dungeonmania.entities.collectable.Treasure;
 import dungeonmania.entities.goal.AndGoal;
 import dungeonmania.entities.goal.ComplexGoalLogic;
@@ -232,12 +233,15 @@ public class Dungeon {
                     continue;
                 case "spider":
                     entities.add(new Spider(x, y, type, this));
+                    continue;
                 case "zombie_toast":
                 case "mercenary":
                 case "treasure":
                     entities.add(new Treasure(x, y, type));
+                    continue;
                 case "key":
-                    //entities.add(new Key(x, y, currEntity.getInt("key")));
+                    entities.add(new Key(x, y, currEntity.getInt("key")));
+                    continue;
                 case "invincibility_potion":
                 case "invisibility_potion":
                 case "wood":
@@ -310,7 +314,10 @@ public class Dungeon {
      */
     public void updateGoal() {
         String curString = getGoals();
-        
+        if (goalStructure.goalAchieved(curString)) {
+            setGoalString("");
+        }
+
         if (curString.contains(":enemies") && getEnemies().size() == 0) {
             setGoalString(curString.replace(":enemies", ""));
         } else if (curString.contains(":boulders") && getFloorSwitches().stream().allMatch(s->((FloorSwitch) s).isTriggered())) {
@@ -324,10 +331,6 @@ public class Dungeon {
         if (playerReachExit()) {
             setGoalString(curString.replace(":exit", ""));
         } 
-
-        if (goalStructure.goalAchieved(curString)) {
-            setGoalString("");
-        }
 
     }
     
@@ -353,16 +356,17 @@ public class Dungeon {
             if (e instanceof CollectableEntity) {
                 ((CollectableEntity) e).collectedByPlayer(this.player, entities);
             }
+            if (e instanceof Door){
+                openDoor((Door)e);
+            }
         }
-        /*
-            .stream()
-            .filter(e -> e instanceof CollectableEntity)
-            .forEach((e) -> {
-                ((CollectableEntity) e).collectedByPlayer(this.player, entities);
-            });
-        */
     }
 
+    public void openDoor(Door door) {
+        int keyId = door.getKeyId();
+        this.player.getKeyInInventory(keyId).consumedByPlayer(this.player);
+        door.setDoorOpen();
+    }
     /**
      * Checks if a move can be made
      * 
