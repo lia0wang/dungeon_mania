@@ -1,6 +1,7 @@
 package dungeonmania.entities.moving;
 
 import dungeonmania.entities.Dungeon;
+import dungeonmania.entities.collectable.Key;
 import dungeonmania.util.Direction;
 
 public class Player extends MovingEntity {
@@ -33,5 +34,9 @@ public class Player extends MovingEntity {
 
     public void setPlayerState(PlayerState playerState) {
         this.playerState = playerState;
+    }
+
+    public Key getKeyInInventory(int keyId) {
+        return getInventory().getKeyByKeyId(keyId);
     }
 }

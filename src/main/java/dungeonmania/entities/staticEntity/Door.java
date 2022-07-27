@@ -3,12 +3,27 @@ package dungeonmania.entities.staticEntity;
 import dungeonmania.entities.Entity;
 
 public class Door extends Entity{
-    private int key;
+    private int keyId;
+    private boolean doorState; 
 
-    public Door(int x, int y, String type, Integer key) {
+    public Door(int x, int y, String type, Integer keyId) {
         super(x, y, type);
         this.setCollision(true);
-        this.key = key;
+        this.keyId = keyId;
+        this.doorState = false;
+    }
+
+    public int getKeyId() {
+        return this.keyId;
+    }
+
+    public boolean isOpen() {
+        return this.doorState;
+    }
+
+    public void setDoorOpen() {
+        this.doorState = true;
+        this.setCollision(false);
     }
 
     public void interact() {}

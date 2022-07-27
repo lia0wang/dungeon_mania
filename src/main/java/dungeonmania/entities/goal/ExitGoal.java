@@ -7,21 +7,30 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.moving.Player;
 import dungeonmania.entities.staticEntity.Exit;
 
-public class ExitGoal implements Goal{
-    private Dungeon dungeon;
-
+public class ExitGoal extends LeafGoal{
     public  ExitGoal(Dungeon dungeon) {
-        this.dungeon = dungeon;
+        super(dungeon);
     }
 
     @Override
-    public boolean goalAchieved() {
-        Player player = this.dungeon.getPlayer();
-        ArrayList<Entity> entitiesAtPlayer = this.dungeon.getAllEntitiesinPosition(player.getPositionX(), player.getPositionY());
+    public boolean goalAchieved(String curString) {
+        Player player = getDungeon().getPlayer();
+        ArrayList<Entity> entitiesAtPlayer = getDungeon().getAllEntitiesInPosition(player.getPositionX(), player.getPositionY());
 			
         if (entitiesAtPlayer.stream().anyMatch(entity -> entity instanceof Exit)) {
             return true;
+        } else {
+            return false;
         }
-        return false;
+    }
+    
+    @Override
+    public String update(String curString) {
+        if (goalAchieved(curString)) {
+            String newString = curString.replace(":exit", "");
+            return newString;
+        } else {
+            return curString;
+        }
     }
 }

@@ -14,6 +14,7 @@ import dungeonmania.entities.moving.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class DungeonManiaController {
     private Dungeon dungeon;
 
@@ -96,6 +97,7 @@ public class DungeonManiaController {
             buildables.add("shield");
         }
 
+        
         return new DungeonResponse(dungeon.getId(), dungeon.getName(), entities, inventory, battles, buildables, dungeon.getGoals());
     }
 
@@ -128,6 +130,8 @@ public class DungeonManiaController {
         }
         dungeon.getAllMovingEntitiesButPlayer().forEach(e -> e.move(movementDirection));
         dungeon.doBattles();
+        dungeon.pickUpItem();
+        dungeon.updateGoal();
         return getDungeonResponseModel();
     }
 
@@ -139,7 +143,7 @@ public class DungeonManiaController {
             throw new IllegalArgumentException();
         }
         Inventory inventory = dungeon.getPlayer().getInventory();
-        if (inventory.hasEnoughMaterialsToCraft(buildable)) {
+        if (!inventory.hasEnoughMaterialsToCraft(buildable)) {
             throw new InvalidActionException("You don't have enough materials to craft " + buildable + "!");
         }
         
