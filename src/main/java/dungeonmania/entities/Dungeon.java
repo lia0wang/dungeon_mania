@@ -32,7 +32,7 @@ public class Dungeon {
      */
     public Dungeon(String dungeonMap, String configs) {
         this.configs = new JSONObject(configs);
-        this.populate(new JSONObject(dungeonMap));
+        populate(new JSONObject(dungeonMap));
         this.Id = "dungeon_" + Integer.toString(nextDungeonId);
         nextDungeonId++;
     }
