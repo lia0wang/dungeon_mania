@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import dungeonmania.response.models.*;
 import dungeonmania.entities.moving.*;
 import dungeonmania.entities.*;
-import dungeonmania.entities.buildable.Shield;
+import dungeonmania.entities.buildable.*;
 import dungeonmania.entities.collectable.CollectableEntity;
 import dungeonmania.entities.collectable.Sword;
 
@@ -56,8 +56,8 @@ public class Battle {
                     enemyDamage -= configs.getDouble("midnight_armour_defence");
                 case "bow":
                     playerDamage = playerDamage * 2;
-                    // Bow bow = (Bow) e;
-                    // bow.usedInBattle(player);
+                    Bow bow = (Bow) e;
+                    bow.usedInBattle(player);
                 case "shield":
                     enemyDamage -= configs.getDouble("shield_defence");
                     Shield shield = (Shield) e;

@@ -8,8 +8,15 @@ public class Boulder extends Entity{
         this.setCollision(true);
     }
 
-    // moves the rock
-    // also check if a floorswitch is activated
+    public Boulder() {
+        super(0, 0, "boulder");
+        this.setCollision(true);
+    }
+
+    /**
+     * 
+     * 
+     */
     public void interact() {}
 
 }

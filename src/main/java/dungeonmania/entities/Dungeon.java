@@ -391,6 +391,17 @@ public class Dungeon {
         }
     }
 
+    public void activateSwitch(Boulder boulder) {
+        for (Entity e : entities) {
+            if (e instanceof FloorSwitch) {
+                if (e.isAtSamePosition(boulder)) {
+                    FloorSwitch FloorSwitch = (FloorSwitch) e;
+                    FloorSwitch.setTriggered(true);
+                }
+            }
+        }
+    }
+
     /**
      * Checks if a move can be made
      * 
