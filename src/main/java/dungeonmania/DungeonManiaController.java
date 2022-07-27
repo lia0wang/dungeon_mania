@@ -4,12 +4,13 @@ import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.*;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
-
+import dungeonmania.util.Position;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.battles.Battle;
 import dungeonmania.entities.collectable.*;
-import dungeonmania.entities.moving.Inventory;
+import dungeonmania.entities.moving.*;
+import dungeonmania.entities.staticEntity.Boulder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,8 +114,43 @@ public class DungeonManiaController {
      * /game/tick/movement
      */
     public DungeonResponse tick(Direction movementDirection) {
-        dungeon.getPlayer().move(movementDirection);
+        Player player = dungeon.getPlayer();
+        Boulder b = new Boulder();
+        Position newPos = player.getPosition().translateBy(movementDirection);
+        Position boulderPos = player.getPosition().translateBy(movementDirection).translateBy(movementDirection);
+
+        ArrayList<Entity> entitiesInPos = dungeon.getAllEntitiesInPosition(newPos.getX(), newPos.getY());
+        boolean playerCanMove = true;
+        boolean boulderCanMove = true;
+        for (Entity e : entitiesInPos) {
+            if (e.getCollision()) {
+                if (e.getType().equals("boulder")) {
+                    ArrayList<Entity> boulderCheck = dungeon.getAllEntitiesInPosition(boulderPos.getX(), boulderPos.getY());
+                    for (Entity e2 : boulderCheck) {
+                        if (e2.getCollision()) {
+                            boulderCanMove = false;
+                            break;
+                        }
+                    }
+                    b = (Boulder) e;
+                }
+                if (boulderCanMove) {
+                    break;
+                } else {
+                    playerCanMove = false;
+                }
+            }
+        }
+
+        if (playerCanMove && boulderCanMove) {
+            b.setPosition(boulderPos);
+            dungeon.activateSwitch(b);
+            player.move(movementDirection);
+        } else if (playerCanMove) {
+            player.move(movementDirection);
+        }
         dungeon.getAllMovingEntitiesButPlayer().forEach(e -> e.move(movementDirection));
+        dungeon.doBattles();
         dungeon.pickUpItem();
         dungeon.updateGoal();
         return getDungeonResponseModel();

@@ -93,6 +93,21 @@ public class Inventory {
                 .findFirst()
                 .orElse(null);
     }
+    
+    /**
+     * Get a list of the first offensive and defensive items current held by the player.
+     *
+     * @return a list of collectable entities
+     */
+    public ArrayList<CollectableEntity> getCurrentWeapons() {
+        ArrayList<CollectableEntity> currWeapons = new ArrayList<>();
+        currWeapons.add(getCollectionByType("sword"));
+        currWeapons.add(getCollectionByType("bow"));
+        currWeapons.add(getCollectionByType("shield"));
+        currWeapons.add(getCollectionByType("midnight_armour"));
+
+        return currWeapons;
+    }
 
     /**
      * Get a list of collectable entities in the collection by type.

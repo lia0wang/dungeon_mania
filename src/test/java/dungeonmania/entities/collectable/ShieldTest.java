@@ -29,7 +29,7 @@ public class ShieldTest {
     
     @Test
     public void testBuildShieldThenUsedInBattle() {
-        Player player = new Player(0, 0);
+        Player player = new Player(0, 0, null);
         Wood wood = new Wood(1, 2);
         Wood wood2 = new Wood(2, 3);        
         Treasure treasure = new Treasure(3, 4);

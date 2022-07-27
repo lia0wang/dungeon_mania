@@ -32,7 +32,7 @@ public class TreasureTest {
     @Test
     public void testTreasureConsumedByPlayer() {
         Treasure treasure = new Treasure(10, 20);
-        Player player = new Player(0, 0);
+        Player player = new Player(0, 0, null);
         ArrayList<Entity> entities = new ArrayList<Entity>();
         entities.add(treasure); // Simulate the treasure is added to the Dungeon
         

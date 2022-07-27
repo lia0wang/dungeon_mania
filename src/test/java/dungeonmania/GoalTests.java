@@ -67,6 +67,21 @@ public class GoalTests {
         assertEquals("", getGoals(res));
     }
 
+    @Test
+    @DisplayName("Test the player sucessfully achieved advanced boulders goal")
+    public void testAdvancedBouldersGoal() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_goalAdvancedBoulders", "c_movementTest_testMovementDown");
+        
+        assertTrue(getGoals(res).contains(":boulders"));
+
+        // move to exit
+        res = dmc.tick(Direction.RIGHT);
+        res = dmc.tick(Direction.UP);
+        res = dmc.tick(Direction.LEFT);
+        
+        assertEquals("", getGoals(res));
+    }
 }
 
 

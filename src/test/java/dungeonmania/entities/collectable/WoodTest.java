@@ -32,7 +32,7 @@ public class WoodTest {
     @Test
     public void testWoodConsumedByPlayer() {
         Wood wood = new Wood(10, 20);
-        Player player = new Player(0, 0);
+        Player player = new Player(0, 0, null);
         ArrayList<Entity> entities = new ArrayList<Entity>();
         entities.add(wood); // Simulate the wood is added to the Dungeon
         

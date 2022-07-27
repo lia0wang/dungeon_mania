@@ -29,7 +29,7 @@ public class BowTest {
     
     @Test
     public void testBuildBowThenUsedInBattle() {
-        Player player = new Player(0, 0);
+        Player player = new Player(0, 0, null);
         Wood wood = new Wood(1, 2);
         Arrows arrows1 = new Arrows(2, 3);
         Arrows arrows2 = new Arrows(3, 4);

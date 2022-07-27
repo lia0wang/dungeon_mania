@@ -25,7 +25,7 @@ public class Spider extends MovingEntity {
     }
     
     /**
-     * Gets the original spawn point of the spider entity
+     * Gets the movement behaviour of the spider entity
      * @return movement 
      */
     public MovementBehaviour getMovement() {
@@ -33,8 +33,13 @@ public class Spider extends MovingEntity {
     }  
 
     /**
+<<<<<<< HEAD
+     * Gets the current tick of the spider entity
+     * @return spawnPoint
+=======
      * Gets the current spider movement direction
      * @return anticlockwise 
+>>>>>>> master
      */
     public boolean isAnticlockwise() {
         return anticlockwise;

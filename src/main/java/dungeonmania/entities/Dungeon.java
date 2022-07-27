@@ -5,19 +5,12 @@ import java.util.stream.Collectors;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import dungeonmania.entities.collectable.CollectableEntity;
-import dungeonmania.entities.collectable.Key;
-import dungeonmania.entities.collectable.Treasure;
-import dungeonmania.entities.goal.AndGoal;
-import dungeonmania.entities.goal.ComplexGoalLogic;
-import dungeonmania.entities.goal.StoreDungeonGoal;
-import dungeonmania.entities.moving.MovingEntity;
-import dungeonmania.entities.moving.Player;
-import dungeonmania.entities.moving.Spider;
-import dungeonmania.entities.moving.ZombieToast;
+import dungeonmania.entities.collectable.*;
+import dungeonmania.entities.goal.*;
+import dungeonmania.entities.moving.*;
 import dungeonmania.entities.staticEntity.*;
 import dungeonmania.util.Position;
-import dungeonmania.entities.battles.*;;
+import dungeonmania.entities.battles.*;
 
 public class Dungeon {
     private JSONObject configs;
@@ -39,7 +32,7 @@ public class Dungeon {
      */
     public Dungeon(String dungeonMap, String configs) {
         this.configs = new JSONObject(configs);
-        this.populate(new JSONObject(dungeonMap));
+        populate(new JSONObject(dungeonMap));
         this.Id = "dungeon_" + Integer.toString(nextDungeonId);
         goalStructure = new AndGoal();
 
@@ -104,6 +97,18 @@ public class Dungeon {
      */
     public ArrayList<Entity> getAllEntitiesInPosition(int x, int y) {
         return entities.stream().filter(entity -> (entity.getPositionX() == x && entity.getPositionY() == y))
+        .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    /**
+     * Get all enemies that are in (x,y) on the map
+     * 
+     * @param x
+     * @param y
+     * @return
+     */
+    public ArrayList<Entity> getAllEnemiesinPosition(int x, int y) {
+        return enemies.stream().filter(entity -> (entity.getPositionX() == x && entity.getPositionY() == y))
         .collect(Collectors.toCollection(ArrayList::new));
     }
 
@@ -191,6 +196,18 @@ public class Dungeon {
     }
 
     /**
+     * checks if the player has enteres a battle, either from the player moving or enemy moving.
+     *
+     * @return name
+     */
+    public void doBattles() {
+        ArrayList<Entity> enemiesInPos = getAllEnemiesinPosition(player.getPositionX(), player.getPositionY());
+        for (Entity e : enemiesInPos) {
+            battles.add(new Battle(e, player, configs));
+        }
+    }
+    
+    /**
      * Populates the dungeon class with entities and stores the goals specified by the map.
      *
      * @param configuration
@@ -206,7 +223,7 @@ public class Dungeon {
 
             switch (type) {
                 case "player":
-                    Player newPlayer = new Player(x, y, type, this);
+                    Player newPlayer = new Player(x, y, this);
                     this.player = newPlayer;
                     entities.add(newPlayer);
                     continue;
@@ -371,6 +388,17 @@ public class Dungeon {
             int keyId = door.getKeyId();
             this.player.getKeyInInventory(keyId).consumedByPlayer(this.player);
             door.setDoorOpen();
+        }
+    }
+
+    public void activateSwitch(Boulder boulder) {
+        for (Entity e : entities) {
+            if (e instanceof FloorSwitch) {
+                if (e.isAtSamePosition(boulder)) {
+                    FloorSwitch FloorSwitch = (FloorSwitch) e;
+                    FloorSwitch.setTriggered(true);
+                }
+            }
         }
     }
 
