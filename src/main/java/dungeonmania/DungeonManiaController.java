@@ -11,6 +11,7 @@ import dungeonmania.entities.battles.Battle;
 import dungeonmania.entities.collectable.*;
 import dungeonmania.entities.moving.*;
 import dungeonmania.entities.staticEntity.Boulder;
+import dungeonmania.entities.staticEntity.Portal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,15 +140,25 @@ public class DungeonManiaController {
                 } else {
                     playerCanMove = false;
                 }
+            } else if (e.getType().equals("portal")) {
+                for (Entity e3 : dungeon.getEntities()) {
+                    if (e3 instanceof Portal) {
+                        Portal portalCheck = (Portal) e3;
+                        Portal thisPortal = (Portal) e;
+                        if (portalCheck.getColour().equals(thisPortal.getColour()) && !portalCheck.equals(thisPortal)) {
+                            newPos = portalCheck.getPosition();
+                        }
+                    }
+                }
             }
         }
 
         if (playerCanMove && boulderCanMove) {
             b.setPosition(boulderPos);
             dungeon.activateSwitch(b);
-            player.move(movementDirection);
+            player.setPosition(newPos);
         } else if (playerCanMove) {
-            player.move(movementDirection);
+            player.setPosition(newPos);
         }
         dungeon.getAllMovingEntitiesButPlayer().forEach(e -> e.move(movementDirection));
         dungeon.doBattles();
