@@ -76,8 +76,12 @@ public class DungeonManiaController {
      */
     public DungeonResponse getDungeonResponseModel() {
         List<EntityResponse> entities = new ArrayList<>();
-        for (Entity e : dungeon.getEntities()) {
-            entities.add(e.getEntityResponse());
+        for (Entity entity : dungeon.getEntities()) {
+            entities.add(entity.getEntityResponse());
+        }
+
+        for (Entity enemy : dungeon.getEnemies()) {
+            entities.add(enemy.getEntityResponse());
         }
 
         Inventory currInventory = dungeon.getPlayer().getInventory();
@@ -160,8 +164,16 @@ public class DungeonManiaController {
         } else if (playerCanMove) {
             player.setPosition(newPos);
         }
+
+        if (!dungeon.doBattles()) {
+            return getDungeonResponseModel();
+        }
+
         dungeon.getAllMovingEntitiesButPlayer().forEach(e -> e.move(movementDirection));
-        dungeon.doBattles();
+        if (!dungeon.doBattles()) {
+            return getDungeonResponseModel();
+        }
+
         dungeon.pickUpItem();
         dungeon.updateGoal();
         return getDungeonResponseModel();

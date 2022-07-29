@@ -200,11 +200,18 @@ public class Dungeon {
      *
      * @return name
      */
-    public void doBattles() {
+    public boolean doBattles() {
         ArrayList<Entity> enemiesInPos = getAllEnemiesinPosition(player.getPositionX(), player.getPositionY());
         for (Entity e : enemiesInPos) {
-            battles.add(new Battle(e, player, configs));
+            Battle nextBattle = new Battle(e, player, configs);
+
+            if (!nextBattle.getPlayerStatus()) {
+                entities.remove(player);
+                return false;
+            }
+            battles.add(nextBattle);
         }
+        return true;
     }
     
     /**
