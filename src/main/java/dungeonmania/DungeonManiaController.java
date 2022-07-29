@@ -119,51 +119,7 @@ public class DungeonManiaController {
      * /game/tick/movement
      */
     public DungeonResponse tick(Direction movementDirection) {
-        Player player = dungeon.getPlayer();
-        Boulder b = new Boulder();
-        Position newPos = player.getPosition().translateBy(movementDirection);
-        Position boulderPos = player.getPosition().translateBy(movementDirection).translateBy(movementDirection);
-
-        ArrayList<Entity> entitiesInPos = dungeon.getAllEntitiesInPosition(newPos.getX(), newPos.getY());
-        boolean playerCanMove = true;
-        boolean boulderCanMove = true;
-        for (Entity e : entitiesInPos) {
-            if (e.getCollision()) {
-                if (e.getType().equals("boulder")) {
-                    ArrayList<Entity> boulderCheck = dungeon.getAllEntitiesInPosition(boulderPos.getX(), boulderPos.getY());
-                    for (Entity e2 : boulderCheck) {
-                        if (e2.getCollision()) {
-                            boulderCanMove = false;
-                            break;
-                        }
-                    }
-                    b = (Boulder) e;
-                }
-                if (boulderCanMove) {
-                    break;
-                } else {
-                    playerCanMove = false;
-                }
-            } else if (e.getType().equals("portal")) {
-                for (Entity e3 : dungeon.getEntities()) {
-                    if (e3 instanceof Portal) {
-                        Portal portalCheck = (Portal) e3;
-                        Portal thisPortal = (Portal) e;
-                        if (portalCheck.getColour().equals(thisPortal.getColour()) && !portalCheck.equals(thisPortal)) {
-                            newPos = portalCheck.getPosition();
-                        }
-                    }
-                }
-            }
-        }
-
-        if (playerCanMove && boulderCanMove) {
-            b.setPosition(boulderPos);
-            dungeon.activateSwitch(b);
-            player.setPosition(newPos);
-        } else if (playerCanMove) {
-            player.setPosition(newPos);
-        }
+        dungeon.doPlayerMovement(movementDirection);
 
         if (!dungeon.doBattles()) {
             return getDungeonResponseModel();
