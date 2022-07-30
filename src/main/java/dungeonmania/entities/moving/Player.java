@@ -36,6 +36,22 @@ public class Player extends MovingEntity {
         this.playerState = playerState;
     }
 
+    public boolean isInvincible() {
+        if (this.playerState instanceof InvincibleState) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isInvisible() {
+        if (this.playerState instanceof InvisibleState) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public Key getKeyInInventory(int keyId) {
         return getInventory().getKeyByKeyId(keyId);
     }

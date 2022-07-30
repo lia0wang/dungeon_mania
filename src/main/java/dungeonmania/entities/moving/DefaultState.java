@@ -1,20 +1,15 @@
 package dungeonmania.entities.moving;
 
 public class DefaultState implements PlayerState{
-    private String playerState;
 
-    public DefaultState() {
-        this.playerState = "DefaultState";
+    @Override
+    public void becomeInvincible(Player player, int effect) {
+        player.setPlayerState(new InvincibleState(effect));
     }
 
     @Override
-    public void becomeInvincible(Player player) {
-        player.setPlayerState(new InvincibleState());
-    }
-
-    @Override
-    public void becomeInvisible(Player player) {
-        player.setPlayerState(new InvisibleState());
+    public void becomeInvisible(Player player, int effect) {
+        player.setPlayerState(new InvisibleState(effect));
     }
 
     @Override
