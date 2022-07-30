@@ -76,8 +76,12 @@ public class DungeonManiaController {
      */
     public DungeonResponse getDungeonResponseModel() {
         List<EntityResponse> entities = new ArrayList<>();
-        for (Entity e : dungeon.getEntities()) {
-            entities.add(e.getEntityResponse());
+        for (Entity entity : dungeon.getEntities()) {
+            entities.add(entity.getEntityResponse());
+        }
+
+        for (Entity enemy : dungeon.getEnemies()) {
+            entities.add(enemy.getEntityResponse());
         }
 
         Inventory currInventory = dungeon.getPlayer().getInventory();
@@ -115,8 +119,6 @@ public class DungeonManiaController {
             throw new InvalidActionException(entity.getType() + "is not in your inventory!");
         }
 
-        // The player's action/using an item must be carried out first, then enemy movement. 
-        // after item is used, removed from the inventory.
         if (entity.getType().equals("bomb")) {
             //TODO
         } else if (entity.getType().equals("invincibility_potion")) {
@@ -136,55 +138,19 @@ public class DungeonManiaController {
      */
     public DungeonResponse tick(Direction movementDirection) {
         Player player = dungeon.getPlayer();
-
         dungeon.updatePotionEffect(player.getPlayerState());
 
-        Boulder b = new Boulder();
-        Position newPos = player.getPosition().translateBy(movementDirection);
-        Position boulderPos = player.getPosition().translateBy(movementDirection).translateBy(movementDirection);
-        
-        ArrayList<Entity> entitiesInPos = dungeon.getAllEntitiesInPosition(newPos.getX(), newPos.getY());
-        boolean playerCanMove = true;
-        boolean boulderCanMove = true;
-        for (Entity e : entitiesInPos) {
-            if (e.getCollision()) {
-                if (e.getType().equals("boulder")) {
-                    ArrayList<Entity> boulderCheck = dungeon.getAllEntitiesInPosition(boulderPos.getX(), boulderPos.getY());
-                    for (Entity e2 : boulderCheck) {
-                        if (e2.getCollision()) {
-                            boulderCanMove = false;
-                            break;
-                        }
-                    }
-                    b = (Boulder) e;
-                }
-                if (boulderCanMove) {
-                    break;
-                } else {
-                    playerCanMove = false;
-                }
-            } else if (e.getType().equals("portal")) {
-                for (Entity e3 : dungeon.getEntities()) {
-                    if (e3 instanceof Portal) {
-                        Portal portalCheck = (Portal) e3;
-                        Portal thisPortal = (Portal) e;
-                        if (portalCheck.getColour().equals(thisPortal.getColour()) && !portalCheck.equals(thisPortal)) {
-                            newPos = portalCheck.getPosition();
-                        }
-                    }
-                }
-            }
+        dungeon.doPlayerMovement(movementDirection);
+
+        if (!dungeon.doBattles()) {
+            return getDungeonResponseModel();
         }
 
-        if (playerCanMove && boulderCanMove) {
-            b.setPosition(boulderPos);
-            dungeon.activateSwitch(b);
-            player.setPosition(newPos);
-        } else if (playerCanMove) {
-            player.setPosition(newPos);
-        }
         dungeon.getAllMovingEntitiesButPlayer().forEach(e -> e.move(movementDirection));
-        dungeon.doBattles();
+        if (!dungeon.doBattles()) {
+            return getDungeonResponseModel();
+        }
+
         dungeon.pickUpItem();
         dungeon.updateGoal();
         return getDungeonResponseModel();

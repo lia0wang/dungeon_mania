@@ -23,6 +23,7 @@ public class Battle {
     private ArrayList<CollectableEntity> weaponsUsed;
     private Player player;
     private JSONObject configs;
+    private boolean playerIsAlive = true;
 
     /**
      * Constructor for Battles
@@ -86,6 +87,19 @@ public class Battle {
         while (currPlayerHealth > 0 && currEnemyHealth > 0) {
             rounds.add(new Round(currPlayerHealth - (enemyDamage/10), currEnemyHealth - (playerDamage/5), weaponsUsed));
         }
+
+        if (currPlayerHealth <= 0) {
+            playerIsAlive = false;
+        }
+    }
+
+    /**
+     * Check to see if player has survived a battle
+     *
+     * @return playerIsAlive boolean
+     */
+    public boolean getPlayerStatus() {
+        return playerIsAlive;
     }
 
     /**
