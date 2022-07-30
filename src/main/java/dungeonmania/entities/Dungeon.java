@@ -2,6 +2,7 @@ package dungeonmania.entities;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+import java.util.Objects;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -9,7 +10,7 @@ import dungeonmania.entities.collectable.*;
 import dungeonmania.entities.goal.*;
 import dungeonmania.entities.moving.*;
 import dungeonmania.entities.staticEntity.*;
-import dungeonmania.util.Position;
+import dungeonmania.util.*;
 import dungeonmania.entities.battles.*;
 
 public class Dungeon {
@@ -200,11 +201,18 @@ public class Dungeon {
      *
      * @return name
      */
-    public void doBattles() {
+    public boolean doBattles() {
         ArrayList<Entity> enemiesInPos = getAllEnemiesinPosition(player.getPositionX(), player.getPositionY());
         for (Entity e : enemiesInPos) {
-            battles.add(new Battle(e, player, configs));
+            Battle nextBattle = new Battle(e, player, configs);
+
+            if (!nextBattle.getPlayerStatus()) {
+                entities.remove(player);
+                return false;
+            }
+            battles.add(nextBattle);
         }
+        return true;
     }
     
     /**
@@ -428,6 +436,74 @@ public class Dungeon {
         return true;
     }
     
+    /**
+     * checks if the player can move and entities that will be affected after doing so.
+     *
+     * @param Direction
+     */
+    public void doPlayerMovement(Direction movementDirection) {
+        Player player = getPlayer();
+        Boulder b = new Boulder();
+        Position newPos = player.getPosition().translateBy(movementDirection);
+        Position boulderPos = player.getPosition().translateBy(movementDirection).translateBy(movementDirection);
+
+        ArrayList<Entity> entitiesInPos = getAllEntitiesInPosition(newPos.getX(), newPos.getY());
+        boolean playerCanMove = true;
+        boolean boulderCanMove = true;
+        for (Entity e : entitiesInPos) {
+            if (e.getCollision()) {
+                if (e instanceof Boulder) {
+                    ArrayList<Entity> boulderCheck = getAllEntitiesInPosition(boulderPos.getX(), boulderPos.getY());
+                    for (Entity e2 : boulderCheck) {
+                        if (e2.getCollision()) {
+                            boulderCanMove = false;
+                            playerCanMove = false;
+                            break;
+                        }
+                    }
+                    b = (Boulder) e;
+                } else if (e instanceof Door) {
+                    int keyId = ((Door) e).getKeyId();
+                    if (this.player.getKeyInInventory(keyId) == null) {
+                        playerCanMove = false;
+                        break;
+                    }
+                    
+                    Key key = this.player.getKeyInInventory(keyId); 
+                    if (e.getPosition().equals(newPos) && this.player.getInventory().contains(key)) {
+                        key.consumedByPlayer(player);
+                        Door d = (Door) e;
+                        d.setDoorOpen();
+                    }
+                } else {
+                    playerCanMove = false;
+                }
+                break;
+                
+            } else if (e instanceof Portal) {
+                for (Entity e3 : getEntities()) {
+                    if (e3 instanceof Portal) {
+                        Portal portalCheck = (Portal) e3;
+                        Portal thisPortal = (Portal) e;
+                        if (portalCheck.getColour().equals(thisPortal.getColour()) && !portalCheck.equals(thisPortal)) {
+                            newPos = portalCheck.getPosition();
+                            playerCanMove = false;
+                            break;
+                        }
+                    }
+                }
+            } 
+        }
+
+        if (playerCanMove && boulderCanMove) {
+            b.setPosition(boulderPos);
+            activateSwitch(b);
+            player.setPosition(newPos);
+        } else if (playerCanMove) {
+            player.setPosition(newPos);
+        }
+    }
+
     /**
      * Get an entity by its ID.
      */
