@@ -32,7 +32,7 @@ public class Dungeon {
      */
     public Dungeon(String dungeonMap, String configs) {
         this.configs = new JSONObject(configs);
-        populate(new JSONObject(dungeonMap));
+        populate(new JSONObject(dungeonMap), new JSONObject(configs));
         this.Id = "dungeon_" + Integer.toString(nextDungeonId);
         goalStructure = new AndGoal();
 
@@ -212,8 +212,11 @@ public class Dungeon {
      *
      * @param configuration
      */
-    public void populate(JSONObject configuration) {
-        JSONArray allEntities = configuration.getJSONArray("entities");
+    public void populate(JSONObject dungeon, JSONObject config) {
+        JSONArray allEntities = dungeon.getJSONArray("entities");
+        int invincibleDuration = config.getInt("invincibility_potion_duration");
+        int invisibleDuration = config.getInt("invisibility_potion_duration");
+
         for (Object e : allEntities) {
 
             JSONObject currEntity = (JSONObject) e;
@@ -264,7 +267,11 @@ public class Dungeon {
                     entities.add(new Key(x, y, currEntity.getInt("key")));
                     continue;
                 case "invincibility_potion":
+                    entities.add(new InvincibilityPotion(x, y, type, invincibleDuration));
+                    continue;
                 case "invisibility_potion":
+                    entities.add(new InvisibilityPotion(x, y, type, invisibleDuration));
+                    continue;
                 case "wood":
                 case "arrow":
                 case "bomb":
@@ -272,7 +279,7 @@ public class Dungeon {
             }
         }
 
-        JSONObject goalExpression = configuration.getJSONObject("goal-condition");
+        JSONObject goalExpression = dungeon.getJSONObject("goal-condition");
         
         // create the goalStructure
         
@@ -399,6 +406,14 @@ public class Dungeon {
                     FloorSwitch.setTriggered(true);
                 }
             }
+        }
+    }
+
+    public void updatePotionEffect(PlayerState state) {
+        if (state instanceof InvincibleState) {
+            ((InvincibleState)state).nextState(player);
+        } else if (state instanceof InvisibleState) {
+            ((InvisibleState)state).nextState(player);
         }
     }
 
