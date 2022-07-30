@@ -268,6 +268,8 @@ public class Dungeon {
                     entities.add(new ZombieToast(x, y, type, this));
                     continue;
                 case "mercenary":
+                    entities.add(new Mercenary(x, y, type, this));
+                    continue;
                 case "treasure":
                     entities.add(new Treasure(x, y, type));
                     continue;
