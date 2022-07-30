@@ -107,7 +107,27 @@ public class DungeonManiaController {
      * /game/tick/item
      */
     public DungeonResponse tick(String itemUsedId) throws IllegalArgumentException, InvalidActionException {
-        // TODO: player uses item for each tick
+        Player player = dungeon.getPlayer();
+        Inventory inventory = dungeon.getPlayer().getInventory();
+        CollectableEntity entity = inventory.findCollectionById(itemUsedId);
+        
+        if (!inventory.containsCollectionById(itemUsedId)) {
+            throw new InvalidActionException(entity.getType() + "is not in your inventory!");
+        }
+
+        // The player's action/using an item must be carried out first, then enemy movement. 
+        // after item is used, removed from the inventory.
+        if (entity.getType().equals("bomb")) {
+            //TODO
+        } else if (entity.getType().equals("invincibility_potion")) {
+            ((InvincibilityPotion)entity).use(player);
+        } else if (entity.getType().equals("invisibility_potion")) {
+            ((InvisibilityPotion)entity).use(player);
+        } else {
+            throw new IllegalArgumentException();
+        }
+        
+        dungeon.updatePotionEffect(player.getPlayerState());
         return getDungeonResponseModel();
     }
 
@@ -116,10 +136,13 @@ public class DungeonManiaController {
      */
     public DungeonResponse tick(Direction movementDirection) {
         Player player = dungeon.getPlayer();
+
+        dungeon.updatePotionEffect(player.getPlayerState());
+
         Boulder b = new Boulder();
         Position newPos = player.getPosition().translateBy(movementDirection);
         Position boulderPos = player.getPosition().translateBy(movementDirection).translateBy(movementDirection);
-
+        
         ArrayList<Entity> entitiesInPos = dungeon.getAllEntitiesInPosition(newPos.getX(), newPos.getY());
         boolean playerCanMove = true;
         boolean boulderCanMove = true;
@@ -224,4 +247,7 @@ public class DungeonManiaController {
         return new ArrayList<>();
     }
 
+    public Dungeon getDungeon() {
+        return this.dungeon;
+    }
 }
