@@ -1,19 +1,14 @@
 package dungeonmania.entities.moving;
 
 public class GameOverState implements PlayerState {
-    private String playerState;
-
-    public GameOverState() {
-        this.playerState = "GameOverState";
-    }
 
     @Override
-    public void becomeInvincible(Player player) {
+    public void becomeInvincible(Player player, int effect) {
         System.out.println("Game Over!");
     }
 
     @Override
-    public void becomeInvisible(Player player) {
+    public void becomeInvisible(Player player, int effect) {
         System.out.println("Game Over!");
     }
 
