@@ -1,20 +1,43 @@
 package dungeonmania.entities.moving;
 
 public class InvisibleState implements PlayerState {
-    private String playerState;
 
-    public InvisibleState() {
-        this.playerState = "InvisibleState";
+    private int remainingEffect;
+    private boolean queued = false;
+
+    public InvisibleState(int remainingEffect) {
+        this.remainingEffect = remainingEffect;
+    }
+
+    public int getRemainingEffect() {
+        return this.remainingEffect;
+    }
+    
+    public void nextState(Player player) {
+        if (this.remainingEffect != 0) {
+            setRemainingEffect(this.remainingEffect - 1);
+        } else {
+            player.setPlayerState(new DefaultState());
+        }
+    }
+
+    public void setRemainingEffect(int time) {
+        this.remainingEffect = time;
+    }
+
+    public boolean setInvisibleQueued() {
+        this.queued = true;
+        return this.queued;
+    }
+    
+    @Override
+    public void becomeInvincible(Player player, int effect) {
+        player.setPlayerState(new InvincibleState(effect));
     }
 
     @Override
-    public void becomeInvincible(Player player) {
-        player.setPlayerState(new InvincibleState());
-    }
-
-    @Override
-    public void becomeInvisible(Player player) {
-        player.setPlayerState(new InvisibleState());
+    public void becomeInvisible(Player player, int effect) {
+        player.setPlayerState(new InvisibleState(effect));
     }
 
     @Override

@@ -10,9 +10,20 @@ import dungeonmania.entities.moving.Player;
  *
  */
 public abstract class Potion extends CollectableEntity {
-    public Potion(int x, int y, String type) {
+    private int effectLasting;
+
+    public Potion(int x, int y, String type, int effectLasting) {
         super(x, y, type);
+        this.effectLasting = effectLasting;
     }
     
+    public int getEffectDuration() {
+        return this.effectLasting;
+    }
+
+    public void setEffectDuration(int effectLasting) {
+        this.effectLasting = effectLasting;
+    }
+
     abstract public void use(Player player);
 }
