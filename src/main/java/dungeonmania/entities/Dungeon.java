@@ -559,8 +559,8 @@ public class Dungeon {
     public Position generateSpiderPos() {
         Random random = new Random();
         // Bounding the range using random.nextInt(max - min + 1) + min
-        int randomX = random.nextInt(25 - (1) + 1) + (1);
-        int randomY = random.nextInt(25 - (1) + 1) + (1);
+        int randomX = random.nextInt(20 - (-10) + 1) + (-10);
+        int randomY = random.nextInt(20 - (-10) + 1) + (-10);
 
         return new Position(randomX, randomY);
     }
