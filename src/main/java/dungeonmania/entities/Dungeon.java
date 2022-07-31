@@ -16,7 +16,7 @@ public class Dungeon {
     private JSONObject configs;
     private Player player;
     private ArrayList<Entity> entities = new ArrayList<>();
-    private ArrayList<Entity> enemies = new ArrayList<>();
+    private ArrayList<MovingEntity> enemies = new ArrayList<>();
     private ArrayList<Battle> battles = new ArrayList<>();
     private String goals = "";
     private ComplexGoalLogic goalStructure;
@@ -126,7 +126,7 @@ public class Dungeon {
      *
      * @return enemies
      */
-    public ArrayList<Entity> getEnemies() {
+    public ArrayList<MovingEntity> getEnemies() {
         return enemies;
     }
 
@@ -164,7 +164,7 @@ public class Dungeon {
      *
      * @param newEntity
      */
-    public void addEnemy(Entity newEnemy) {
+    public void addEnemy(MovingEntity newEnemy) {
         enemies.add(newEnemy);
     }
 
@@ -265,12 +265,14 @@ public class Dungeon {
                     entities.add(new ZombieToastSpawner(x, y, type));
                     continue;
                 case "spider":
-                    entities.add(new Spider(x, y, type, this, config.getInt("spider_attack"), config.getInt("spider_health")));
+                    enemies.add(new Spider(x, y, type, this, config.getInt("spider_attack"), config.getInt("spider_health")));
                     continue;
                 case "zombie_toast":
-                    entities.add(new ZombieToast(x, y, type, this, config.getInt("zombie_attack"), config.getInt("zombie_health")));
+                    enemies.add(new ZombieToast(x, y, type, this, config.getInt("zombie_attack"), config.getInt("zombie_health")));
                     continue;
                 case "mercenary":
+                //TODO
+                    continue;
                 case "treasure":
                     entities.add(new Treasure(x, y, type));
                     continue;
@@ -284,9 +286,17 @@ public class Dungeon {
                     entities.add(new InvisibilityPotion(x, y, type, invisibleDuration));
                     continue;
                 case "wood":
+                    entities.add(new Wood(x, y));
+                    continue;
                 case "arrow":
+                    entities.add(new Arrows(x, y));
+                    continue;
                 case "bomb":
+                    entities.add(new Bomb(x, y, type));
+                    continue;
                 case "sword":
+                    entities.add(new Sword(x, y));
+                    continue;
             }
         }
 

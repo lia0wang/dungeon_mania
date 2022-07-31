@@ -60,6 +60,10 @@ public class DungeonManiaController {
             entities.add(e.getEntityResponse());
         }
 
+        for (MovingEntity enemy : dungeon.getEnemies()) {
+            entities.add(enemy.getEntityResponse());
+        }
+
         List<ItemResponse> inventory = new ArrayList<>();
         List<BattleResponse> battles = new ArrayList<>();
         List<String> buildables = new ArrayList<>();
@@ -76,7 +80,7 @@ public class DungeonManiaController {
             entities.add(entity.getEntityResponse());
         }
 
-        for (Entity enemy : dungeon.getEnemies()) {
+        for (MovingEntity enemy : dungeon.getEnemies()) {
             entities.add(enemy.getEntityResponse());
         }
 
