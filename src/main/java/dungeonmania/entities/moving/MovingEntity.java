@@ -16,4 +16,25 @@ public abstract class MovingEntity extends Entity{
     }
     
     public abstract void move(Direction direction);
+
+    /**
+     * Get entity attack
+     *
+     * @return attack
+     */
+    public abstract double getAttack();
+
+    /**
+     * Get entity health
+     *
+     * @return health
+     */
+    public abstract double getHealth();
+
+    /**
+     * Set entity health
+     *
+     * @return health
+     */
+    public abstract void setHealth(double health);
 }

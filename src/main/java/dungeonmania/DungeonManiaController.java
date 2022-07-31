@@ -2,16 +2,12 @@ package dungeonmania;
 
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.*;
-import dungeonmania.util.Direction;
-import dungeonmania.util.FileLoader;
-import dungeonmania.util.Position;
+import dungeonmania.util.*;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.battles.Battle;
 import dungeonmania.entities.collectable.*;
 import dungeonmania.entities.moving.*;
-import dungeonmania.entities.staticEntity.Boulder;
-import dungeonmania.entities.staticEntity.Portal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,10 +134,8 @@ public class DungeonManiaController {
      */
     public DungeonResponse tick(Direction movementDirection) {
         Player player = dungeon.getPlayer();
-        dungeon.updatePotionEffect(player.getPlayerState());
 
         dungeon.doPlayerMovement(movementDirection);
-
         if (!dungeon.doBattles()) {
             return getDungeonResponseModel();
         }
@@ -150,6 +144,7 @@ public class DungeonManiaController {
         if (!dungeon.doBattles()) {
             return getDungeonResponseModel();
         }
+        dungeon.updatePotionEffect(player.getPlayerState());
 
         dungeon.pickUpItem();
         dungeon.updateGoal();
