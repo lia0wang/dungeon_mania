@@ -13,7 +13,4 @@ public class Portal extends Entity{
     public String getColour() {
         return colour;
     }
-
-    public void interact() {}
-
 }

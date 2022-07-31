@@ -8,5 +8,4 @@ public class Wall extends Entity{
         super(x, y, type);
         this.setCollision(true);
     }
-    
 }

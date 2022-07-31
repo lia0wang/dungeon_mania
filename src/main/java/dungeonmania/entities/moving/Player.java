@@ -2,8 +2,6 @@ package dungeonmania.entities.moving;
 
 import java.util.ArrayList;
 
-import org.json.JSONObject;
-
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.collectable.Key;
 import dungeonmania.util.Direction;
@@ -75,16 +73,16 @@ public class Player extends MovingEntity {
     public double getAttack() {
         double baseAttack = attack;
         ArrayList<CollectableEntity> weaponsUsed = getInventory().getCurrentWeapons();
-        JSONObject configs = dungeon.getConfigs();
         for (CollectableEntity e : weaponsUsed) {
             switch (e.getType()) {
                 case "sword":
-                    baseAttack += configs.getDouble("sword_attack");
                     Sword sword = (Sword) e;
+                    baseAttack += sword.getAttackDamage();
                     sword.usedInBattle(this);
                     continue;
                 case "midnight_armour":
-                    baseAttack += configs.getDouble("midnight_armour_attack");
+                    MidnightArmour midnightArmour = (MidnightArmour) e;
+                    baseAttack += midnightArmour.getAttackDamage();
                     continue;
                 case "bow":
                     baseAttack = baseAttack * 2;
@@ -104,15 +102,15 @@ public class Player extends MovingEntity {
     public double getDamageReduction() {
         double damageReduction = 0.0;
         ArrayList<CollectableEntity> weaponsUsed = getInventory().getCurrentWeapons();
-        JSONObject configs = dungeon.getConfigs();
         for (CollectableEntity e : weaponsUsed) {
             switch (e.getType()) {
                 case "midnight_armour":
-                    damageReduction += configs.getDouble("midnight_armour_defence");
+                    MidnightArmour midnightArmour = (MidnightArmour) e;    
+                    damageReduction += midnightArmour.getDefenseValue();
                     continue;
                 case "shield":
-                    damageReduction += configs.getDouble("shield_defence");
                     Shield shield = (Shield) e;
+                    damageReduction += shield.getDefenseValue();
                     shield.usedInBattle(this);
                     continue;
             }

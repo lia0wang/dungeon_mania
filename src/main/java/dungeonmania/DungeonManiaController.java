@@ -146,7 +146,8 @@ public class DungeonManiaController {
             return getDungeonResponseModel();
         }
 
-        dungeon.getAllMovingEntitiesButPlayer().forEach(e -> e.move(movementDirection));
+        //dungeon.getAllMovingEntitiesButPlayer().forEach(e -> e.move(movementDirection));
+        dungeon.moveEntities(movementDirection);
         if (!dungeon.doBattles()) {
             return getDungeonResponseModel();
         }

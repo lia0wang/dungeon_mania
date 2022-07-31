@@ -6,7 +6,4 @@ public class Exit extends Entity{
     public Exit(int x, int y, String type) {
         super(x, y, type);
     }
-
-    public void interact() {}
-
 }

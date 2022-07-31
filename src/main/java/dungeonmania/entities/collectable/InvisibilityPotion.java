@@ -2,9 +2,7 @@ package dungeonmania.entities.collectable;
 
 import org.json.JSONObject;
 
-import dungeonmania.entities.moving.InvincibleState;
 import dungeonmania.entities.moving.Player;
-import dungeonmania.entities.moving.PlayerState;
 
 /**
  * class for invisibility potion.
