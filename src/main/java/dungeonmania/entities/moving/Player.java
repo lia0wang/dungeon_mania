@@ -82,12 +82,15 @@ public class Player extends MovingEntity {
                     baseAttack += configs.getDouble("sword_attack");
                     Sword sword = (Sword) e;
                     sword.usedInBattle(this);
+                    continue;
                 case "midnight_armour":
                     baseAttack += configs.getDouble("midnight_armour_attack");
+                    continue;
                 case "bow":
                     baseAttack = baseAttack * 2;
                     Bow bow = (Bow) e;
                     bow.usedInBattle(this);
+                    continue;
             }
         }
         return baseAttack;
@@ -106,10 +109,12 @@ public class Player extends MovingEntity {
             switch (e.getType()) {
                 case "midnight_armour":
                     damageReduction += configs.getDouble("midnight_armour_defence");
+                    continue;
                 case "shield":
                     damageReduction += configs.getDouble("shield_defence");
                     Shield shield = (Shield) e;
                     shield.usedInBattle(this);
+                    continue;
             }
         }
         return damageReduction;

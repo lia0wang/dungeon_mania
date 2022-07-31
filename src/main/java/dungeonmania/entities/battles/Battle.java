@@ -32,8 +32,8 @@ public class Battle {
     public Battle(MovingEntity enemy, Dungeon dungeon, JSONObject configs) {
         this.enemy = enemy;
         this.player = dungeon.getPlayer();
-        PlayerHealth = player.getAttack();
-        playerDamage = player.getHealth();
+        PlayerHealth = player.getHealth();
+        playerDamage = player.getAttack();
         EnemyHealth = enemy.getHealth();
         enemyDamage = enemy.getAttack() - player.getDamageReduction();
         if (enemyDamage < 0) {
@@ -58,8 +58,8 @@ public class Battle {
         Double currEnemyHealth = EnemyHealth;
 
         while (currPlayerHealth > 0 && currEnemyHealth > 0) {
-            currEnemyHealth -= enemyDamage/10;
-            currPlayerHealth -= playerDamage/5;
+            currEnemyHealth -= (playerDamage/5);
+            currPlayerHealth -= (enemyDamage/10);
             rounds.add(new Round(-(enemyDamage/10), -(playerDamage/5), weaponsUsed));
             if (isInvincible) {
                 break;

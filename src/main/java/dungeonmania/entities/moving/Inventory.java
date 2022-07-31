@@ -1,7 +1,6 @@
 package dungeonmania.entities.moving;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import dungeonmania.entities.buildable.Bow;
@@ -101,10 +100,13 @@ public class Inventory {
      */
     public ArrayList<CollectableEntity> getCurrentWeapons() {
         ArrayList<CollectableEntity> currWeapons = new ArrayList<>();
-        currWeapons.add(getCollectionByType("sword"));
-        currWeapons.add(getCollectionByType("bow"));
-        currWeapons.add(getCollectionByType("shield"));
-        currWeapons.add(getCollectionByType("midnight_armour"));
+        CollectableEntity weapon;
+        for (String s : Arrays.asList("sword", "bow", "shield", "midnight_armour")) {
+            weapon = getCollectionByType(s);
+            if (weapon != null) {
+                currWeapons.add(weapon);
+            }
+        }
 
         return currWeapons;
     }
