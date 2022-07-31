@@ -2,7 +2,6 @@ package dungeonmania.entities;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-import java.util.Objects;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -202,9 +201,13 @@ public class Dungeon {
      * @return name
      */
     public boolean doBattles() {
+        if (player.getPlayerState() instanceof InvisibleState) {
+            return true;
+        }
+
         ArrayList<Entity> enemiesInPos = getAllEnemiesinPosition(player.getPositionX(), player.getPositionY());
         for (Entity e : enemiesInPos) {
-            Battle nextBattle = new Battle(e, player, configs);
+            Battle nextBattle = new Battle((MovingEntity)e, this, configs);
 
             if (!nextBattle.getPlayerStatus()) {
                 entities.remove(player);
@@ -262,10 +265,10 @@ public class Dungeon {
                     entities.add(new ZombieToastSpawner(x, y, type));
                     continue;
                 case "spider":
-                    entities.add(new Spider(x, y, type, this));
+                    entities.add(new Spider(x, y, type, this, config.getInt("spider_attack"), config.getInt("spider_health")));
                     continue;
                 case "zombie_toast":
-                    entities.add(new ZombieToast(x, y, type, this));
+                    entities.add(new ZombieToast(x, y, type, this, config.getInt("zombie_attack"), config.getInt("zombie_health")));
                     continue;
                 case "mercenary":
                 case "treasure":
@@ -502,7 +505,6 @@ public class Dungeon {
                         Portal thisPortal = (Portal) e;
                         if (portalCheck.getColour().equals(thisPortal.getColour()) && !portalCheck.equals(thisPortal)) {
                             newPos = portalCheck.getPosition();
-                            playerCanMove = false;
                             break;
                         }
                     }
