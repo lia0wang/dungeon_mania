@@ -79,13 +79,13 @@ public class Player extends MovingEntity {
         for (CollectableEntity e : weaponsUsed) {
             switch (e.getType()) {
                 case "sword":
-                    baseAttack += configs.getDouble("sword_attack");
                     Sword sword = (Sword) e;
                     baseAttack += sword.getAttackDamage();
                     sword.usedInBattle(this);
                     continue;
                 case "midnight_armour":
-                    baseAttack += configs.getDouble("midnight_armour_attack");
+                    MidnightArmour midnightArmour = (MidnightArmour) e;
+                    baseAttack += midnightArmour.getAttackDamage();
                     continue;
                 case "bow":
                     baseAttack = baseAttack * 2;
@@ -109,11 +109,12 @@ public class Player extends MovingEntity {
         for (CollectableEntity e : weaponsUsed) {
             switch (e.getType()) {
                 case "midnight_armour":
-                    damageReduction += configs.getDouble("midnight_armour_defence");
+                    MidnightArmour midnightArmour = (MidnightArmour) e;    
+                    damageReduction += midnightArmour.getDefenseValue();
                     continue;
                 case "shield":
-                    damageReduction += configs.getDouble("shield_defence");
                     Shield shield = (Shield) e;
+                    damageReduction += shield.getDefenseValue();
                     shield.usedInBattle(this);
                     continue;
             }
