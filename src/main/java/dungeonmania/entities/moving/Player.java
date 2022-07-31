@@ -81,6 +81,7 @@ public class Player extends MovingEntity {
                 case "sword":
                     baseAttack += configs.getDouble("sword_attack");
                     Sword sword = (Sword) e;
+                    baseAttack += sword.getAttackDamage();
                     sword.usedInBattle(this);
                     continue;
                 case "midnight_armour":
