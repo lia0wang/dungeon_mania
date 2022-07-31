@@ -541,7 +541,7 @@ public class Dungeon {
      */
     public void moveEntities(Direction movementDirection) {
         boolean canMove;
-        for (MovingEntity movingEntity : getAllMovingEntitiesButPlayer()) {
+        for (MovingEntity movingEntity : enemies) {
             Position pos = movingEntity.getPosition();
             canMove = true;
             for (Entity staticEntity : getAllEntitiesInPosition(pos.getX(), pos.getY())) {
