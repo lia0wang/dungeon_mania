@@ -134,10 +134,8 @@ public class DungeonManiaController {
      */
     public DungeonResponse tick(Direction movementDirection) {
         Player player = dungeon.getPlayer();
-        dungeon.updatePotionEffect(player.getPlayerState());
 
         dungeon.doPlayerMovement(movementDirection);
-
         if (!dungeon.doBattles()) {
             return getDungeonResponseModel();
         }
@@ -146,6 +144,7 @@ public class DungeonManiaController {
         if (!dungeon.doBattles()) {
             return getDungeonResponseModel();
         }
+        dungeon.updatePotionEffect(player.getPlayerState());
 
         dungeon.pickUpItem();
         dungeon.updateGoal();
