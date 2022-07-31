@@ -12,11 +12,4 @@ public class Boulder extends Entity{
         super(0, 0, "boulder");
         this.setCollision(true);
     }
-
-    /**
-     * 
-     * 
-     */
-    public void interact() {}
-
 }

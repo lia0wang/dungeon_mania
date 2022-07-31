@@ -15,7 +15,6 @@ import dungeonmania.entities.moving.Player;
  *
  */
 public class Bomb extends CollectableEntity implements IBombBehavior {
-    private final int RADIUS = 1;
     
     public Bomb(int x, int y, String type) {
         super(x, y, type);

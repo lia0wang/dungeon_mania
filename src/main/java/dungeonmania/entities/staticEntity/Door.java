@@ -25,7 +25,4 @@ public class Door extends Entity{
         this.doorState = true;
         this.setCollision(false);
     }
-
-    public void interact() {}
-
 }
