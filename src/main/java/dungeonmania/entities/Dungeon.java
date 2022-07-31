@@ -226,8 +226,6 @@ public class Dungeon {
      */
     public void populate(JSONObject dungeon, JSONObject config) {
         JSONArray allEntities = dungeon.getJSONArray("entities");
-        int invincibleDuration = config.getInt("invincibility_potion_duration");
-        int invisibleDuration = config.getInt("invisibility_potion_duration");
 
         for (Object e : allEntities) {
 
@@ -265,6 +263,9 @@ public class Dungeon {
                 case "zombie_toast_spawner":
                     entities.add(new ZombieToastSpawner(x, y, type));
                     continue;
+                case "swamp_tile":
+                    entities.add(new SwampTile(x, y, type, config.getInt("movement_factor")));
+                    continue;
                 case "spider":
                     enemies.add(new Spider(x, y, type, this, config.getInt("spider_attack"), config.getInt("spider_health")));
                     continue;
@@ -281,10 +282,10 @@ public class Dungeon {
                     entities.add(new Key(x, y, currEntity.getInt("key")));
                     continue;
                 case "invincibility_potion":
-                    entities.add(new InvincibilityPotion(x, y, type, invincibleDuration));
+                    entities.add(new InvincibilityPotion(x, y, type, config.getInt("invincibility_potion_duration")));
                     continue;
                 case "invisibility_potion":
-                    entities.add(new InvisibilityPotion(x, y, type, invisibleDuration));
+                    entities.add(new InvisibilityPotion(x, y, type, config.getInt("invisibility_potion_duration")));
                     continue;
                 case "wood":
                     entities.add(new Wood(x, y));
@@ -536,6 +537,30 @@ public class Dungeon {
     }
 
     /**
+     * Moves other entities
+     */
+    public void moveEntities(Direction movementDirection) {
+        boolean canMove;
+        for (MovingEntity movingEntity : getAllMovingEntitiesButPlayer()) {
+            Position pos = movingEntity.getPosition();
+            canMove = true;
+            for (Entity staticEntity : getAllEntitiesInPosition(pos.getX(), pos.getY())) {
+                if (staticEntity instanceof SwampTile) {
+                    SwampTile swamp = (SwampTile) staticEntity;
+                    if (!swamp.tryToMove(movingEntity)) {
+                        canMove = false;
+                        break;
+                    }
+                }
+            }
+            
+            if (canMove) {
+                movingEntity.move(movementDirection);
+            }
+        }
+    }
+
+    /**
      * Get an entity by its ID.
      */
     public Entity getEntityById(String id) {
@@ -565,7 +590,7 @@ public class Dungeon {
             while (boulderInPosition(newSpiderPos)) {
                 newSpiderPos = generateSpiderPos();
             }
-            entities.add(new Spider(newSpiderPos.getX(), newSpiderPos.getY(), "spider", this, configs.getInt("spider_attack"), configs.getInt("spider_health")));
+            enemies.add(new Spider(newSpiderPos.getX(), newSpiderPos.getY(), "spider", this, configs.getInt("spider_attack"), configs.getInt("spider_health")));
         }
     }
 
