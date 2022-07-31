@@ -89,6 +89,8 @@ public class ZombieTests {
         spawnLocations.add(new Position(x-1, y));
         spawnLocations.add(new Position(x-1, y-1));
 
+        res = dmc.tick(Direction.UP);
+
         assertTrue(spawnLocations.contains(getEntities(res, "zombie_toast").get(0).getPosition()));
     }
 
@@ -110,6 +112,8 @@ public class ZombieTests {
         spawnLocations.add(new Position(x+1, y));
         spawnLocations.add(new Position(x-1, y));
 
+        res = dmc.tick(Direction.UP);
+
         assertTrue(spawnLocations.contains(getEntities(res, "zombie_toast").get(0).getPosition()));
     }
 
@@ -130,15 +134,17 @@ public class ZombieTests {
     public void testZombieSpawnRate8() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame("d_movementTest_testMovementNoWalls", "c_enemyTest_spawnRate8");
+        DungeonResponse res = dmc.newGame("d_zombieTest_spawningNoWalls", "c_enemyTest_spawnRate8");
         int spawnCnt = 0;
         
         for (int i = 0; i <= 32; i++) {
             res = dmc.tick(Direction.UP);
             if (i % 8 == 0 && i != 0) {
                 spawnCnt++;
-                assertEquals(countEntityOfType(res, "zombie_toast"), spawnCnt);
+                assertEquals(spawnCnt, countEntityOfType(res, "zombie_toast"));
             }
         }
+
+        assertEquals(4, countEntityOfType(res, "zombie_toast"));
     }
 }

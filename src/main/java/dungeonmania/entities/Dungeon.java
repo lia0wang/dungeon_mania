@@ -1,6 +1,8 @@
 package dungeonmania.entities;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import org.json.JSONArray;
@@ -580,8 +582,17 @@ public class Dungeon {
         return entities.stream().filter(e -> e instanceof Boulder).anyMatch(b -> b.getPosition().equals(position));
     }
 
+    public boolean wallInPosition(Position position) {
+        return entities.stream().filter(e -> e instanceof Wall).anyMatch(b -> b.getPosition().equals(position));
+    }
+
+    public List<Entity> getAllSpawners() {
+        return entities.stream().filter(e -> e instanceof ZombieToastSpawner).collect(Collectors.toList());
+    }
+
     public void spawnEnemies(int tickCount) {
         int spiderRate = configs.getInt("spider_spawn_rate");
+        int zombieRate = configs.getInt("zombie_spawn_rate");
         
         if (spiderRate != 0 && tickCount % spiderRate == 0) {
             Position newSpiderPos = generateSpiderPos();
@@ -590,7 +601,17 @@ public class Dungeon {
             while (boulderInPosition(newSpiderPos)) {
                 newSpiderPos = generateSpiderPos();
             }
-            enemies.add(new Spider(newSpiderPos.getX(), newSpiderPos.getY(), "spider", this, configs.getInt("spider_attack"), configs.getInt("spider_health")));
+
+            // add the new spider to the enemy list
+            addEnemy(new Spider(newSpiderPos.getX(), newSpiderPos.getY(), "spider", this, configs.getInt("spider_attack"), configs.getInt("spider_health")));
+            
+        } 
+        if (zombieRate != 0 && tickCount % zombieRate == 0) {
+            for (Entity entity : getAllSpawners()) {
+                if (entity instanceof ZombieToastSpawner) {
+                    generateZombie(entity);
+                }
+            }
         }
     }
 
@@ -601,5 +622,25 @@ public class Dungeon {
         int randomY = random.nextInt(20 - (-10) + 1) + (-10);
 
         return new Position(randomX, randomY);
+    }
+
+    public void generateZombie(Entity spawner) {
+        // Get the spawners position
+        Position spawnerPos = spawner.getPosition();
+
+        // Check all adjacent positions and randomly shuffle it
+        List<Position> adjacentSquares = spawnerPos.getAdjacentPositions();
+        Collections.shuffle(adjacentSquares, new Random());
+
+        for (int i = 0; i < adjacentSquares.size(); i++) {
+            if (!wallInPosition(adjacentSquares.get(i))) {
+                int x = adjacentSquares.get(i).getX();
+                int y = adjacentSquares.get(i).getY();
+
+                // Spawn a zombie at the open position
+                addEnemy(new ZombieToast(x, y, "zombie_toast", this, configs.getInt("zombie_attack"), configs.getInt("zombie_health")));
+                break;
+            }
+        }
     }
 }
