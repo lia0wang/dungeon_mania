@@ -298,6 +298,9 @@ public class Dungeon {
                 case "sword":
                     entities.add(new Sword(x, y));
                     continue;
+                case "sun_stone":
+                    entities.add(new SunStone(x, y, type));
+                    continue;
             }
         }
 
