@@ -19,7 +19,7 @@ public class ZombieMovement implements MovementBehaviour {
         List<Direction> directionList = Arrays.asList(directionOptions);
         Integer[] indexOrder = {0, 1, 2, 3};
         List<Integer> indexList = Arrays.asList(indexOrder);
-        Collections.shuffle(indexList, new Random(1));
+        Collections.shuffle(indexList, new Random());
 
         // Try all directions one by one until a valid move can be made
         for (int i = 0; i < indexList.size(); i++) {
