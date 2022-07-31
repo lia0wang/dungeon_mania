@@ -3,6 +3,7 @@ package dungeonmania.entities.moving;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import static dungeonmania.TestUtils.getEntities;
+import static dungeonmania.TestUtils.countEntityOfType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,5 +128,56 @@ public class SpiderTests {
         // Assert that the spider remains still between two boulders
         res = dmc.tick(Direction.UP);
         assertEquals(newPos, getEntities(res, "spider").get(0).getPosition());
+    }
+
+    @Test
+    @DisplayName("Test spider spawning rate 0")
+    public void testSpiderSpawnRate0() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_movementTest_testMovementNoWalls", "c_spiderTest_basicMovement");
+
+        for (int i = 0; i < 20; i++) {
+            res = dmc.tick(Direction.UP);
+            assertEquals(countEntityOfType(res, "spider"), 0);
+        }
+    }
+
+    @Test
+    @DisplayName("Test spider spawning rate 4")
+    public void testSpiderSpawnRate4() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_movementTest_testMovementNoWalls", "c_enemyTest_spawnRate4");
+        int spawnCnt = 0;
+        
+        for (int i = 0; i <= 20; i++) {
+            res = dmc.tick(Direction.UP);
+            if (i % 4 == 0 && i != 0) {
+                spawnCnt++;
+                assertEquals(countEntityOfType(res, "spider"), spawnCnt);
+            }
+        }
+
+        assertEquals(5, countEntityOfType(res, "spider"));
+    }
+
+    @Test
+    @DisplayName("Test spider spawning rate 8")
+    public void testSpiderSpawnRate8() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_movementTest_testMovementNoWalls", "c_enemyTest_spawnRate8");
+        int spawnCnt = 0;
+        
+        for (int i = 0; i <= 32; i++) {
+            res = dmc.tick(Direction.UP);
+            if (i % 8 == 0 && i != 0) {
+                spawnCnt++;
+                assertEquals(countEntityOfType(res, "spider"), spawnCnt);
+            }
+        }
+
+        assertEquals(4, countEntityOfType(res, "spider"));
     }
 }
