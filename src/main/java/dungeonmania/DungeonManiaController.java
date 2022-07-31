@@ -15,6 +15,7 @@ import java.util.List;
 
 public class DungeonManiaController {
     private Dungeon dungeon;
+    private int tickCount = 0;
 
     public String getSkin() {
         return "default";
@@ -133,6 +134,7 @@ public class DungeonManiaController {
      * /game/tick/movement
      */
     public DungeonResponse tick(Direction movementDirection) {
+        setTickCount(getTickCount() + 1);
         Player player = dungeon.getPlayer();
 
         dungeon.doPlayerMovement(movementDirection);
@@ -148,6 +150,7 @@ public class DungeonManiaController {
 
         dungeon.pickUpItem();
         dungeon.updateGoal();
+        dungeon.spawnEnemies(getTickCount());
         return getDungeonResponseModel();
     }
 
@@ -211,4 +214,13 @@ public class DungeonManiaController {
     public Dungeon getDungeon() {
         return this.dungeon;
     }
+
+    public int getTickCount() {
+        return tickCount;
+    }
+
+    public void setTickCount(int tickCount) {
+        this.tickCount = tickCount;
+    }
+
 }

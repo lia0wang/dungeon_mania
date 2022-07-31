@@ -158,6 +158,8 @@ public class SpiderTests {
                 assertEquals(countEntityOfType(res, "spider"), spawnCnt);
             }
         }
+
+        assertEquals(5, countEntityOfType(res, "spider"));
     }
 
     @Test
@@ -175,5 +177,7 @@ public class SpiderTests {
                 assertEquals(countEntityOfType(res, "spider"), spawnCnt);
             }
         }
+
+        assertEquals(4, countEntityOfType(res, "spider"));
     }
 }
