@@ -1,6 +1,7 @@
 package dungeonmania.entities;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.stream.Collectors;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -549,5 +550,28 @@ public class Dungeon {
 
     public boolean boulderInPosition(Position position) {
         return entities.stream().filter(e -> e instanceof Boulder).anyMatch(b -> b.getPosition().equals(position));
+    }
+
+    public void spawnEnemies(int tickCount) {
+        int spiderRate = configs.getInt("spider_spawn_rate");
+        
+        if (spiderRate != 0 && tickCount % spiderRate == 0) {
+            Position newSpiderPos = generateSpiderPos();
+
+            // Spider cant spawn on boulders
+            while (boulderInPosition(newSpiderPos)) {
+                newSpiderPos = generateSpiderPos();
+            }
+            entities.add(new Spider(newSpiderPos.getX(), newSpiderPos.getY(), "spider", this, configs.getInt("spider_attack"), configs.getInt("spider_health")));
+        }
+    }
+
+    public Position generateSpiderPos() {
+        Random random = new Random();
+        // Bounding the range using random.nextInt(max - min + 1) + min
+        int randomX = random.nextInt(20 - (-10) + 1) + (-10);
+        int randomY = random.nextInt(20 - (-10) + 1) + (-10);
+
+        return new Position(randomX, randomY);
     }
 }
